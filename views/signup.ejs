@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Binit</title>
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+    <header class="head"> 
+        <nav class="headnav">
+            <ul class="navbar">
+                <li><a href="/" class="logo"><img src="/images/logo_transparent.png" width="100" height="100" alt="Logo"></a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/faq">FAQs</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2>Create an Account</h2>
+            <form id="signup-form" method="POST" action="/signup">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" value="<%= fullname || '' %>" required>
+                <% if (errors.fullname) { %>
+                    <span class="error-message"><%= errors.fullname %></span>
+                <% } %>
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" value="<%= email || '' %>" required>
+                <% if (errors.email) { %>
+                    <span class="error-message"><%= errors.email %></span>
+                <% } %>
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" value="<%= phone || '' %>" required>
+                <% if (errors.phone) { %>
+                    <span class="error-message"><%= errors.phone %></span>
+                <% } %>
+
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" value="<%= address || '' %>" required>
+                <% if (errors.address) { %>
+                    <span class="error-message"><%= errors.address %></span>
+                <% } %>
+
+                <label for="province">Province</label>
+                <select id="province" name="province" required>
+                    <option value="">Select Province</option>
+                    <option value="Ontario" <% if (province === 'Ontario') { %>selected<% } %>>Ontario</option>
+                    <option value="Quebec" <% if (province === 'Quebec') { %>selected<% } %>>Quebec</option>
+                    <option value="British Columbia" <% if (province === 'British Columbia') { %>selected<% } %>>British Columbia</option>
+                    <option value="Alberta" <% if (province === 'Alberta') { %>selected<% } %>>Alberta</option>
+                </select>
+                <% if (errors.province) { %>
+                    <span class="error-message"><%= errors.province %></span>
+                <% } %>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" value="<%= password || '' %>" required>
+                <% if (errors.password) { %>
+                    <span class="error-message"><%= errors.password %></span>
+                <% } %>
+
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirmPassword" value="<%= confirmPassword || '' %>" required>
+                <% if (errors.confirmPassword) { %>
+                    <span class="error-message"><%= errors.confirmPassword %></span>
+                <% } %>
+
+                <div class="terms">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I accept the <a href="/terms" target="_blank">Terms & Conditions</a></label>
+                </div>
+
+                <button type="submit">Create Account</button>
+                <% if (errors.general) { %>
+                    <p class="error-message"><%= errors.general %></p>
+                <% } %>
+                <p>Already have an account? <a href="/signin">Sign In</a></p>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Binit. All rights reserved.</p>
+    </footer>
+</body>
+</html>

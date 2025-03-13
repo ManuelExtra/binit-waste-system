@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="request.css">
+    <title>Request BinIt</title>
+</head>
+
+<body>
+
+    <section class="head">
+        <div class="headnav">
+            <ul class="navbar">
+                <li>
+                    <a href="bookingsystem.ejs" class="logo">
+                        <img src="<%= logoImagePath %>" width="100" height="100" alt="Website Logo">
+                    </a>
+                </li>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="faq.ejs">FAQs</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li>
+                    <img src="<%= userIconPath %>" width="20" alt="User Icon">
+                </li>
+                <li class="profile-icon" onclick="toggleMenu()">
+                    <img src="<%= profileImagePath %>" width="50" alt="Profile Icon">
+                </li>
+            </ul>
+        
+        <div id="sideMenu" class="side-menu">
+            <button class="close-btn" onclick="toggleMenu()">&times;</button>
+            <ul>
+                <li>
+                    <img src="<%= notificationIconPath %>" width="20" alt="Notifications">
+                    <a href="#">Notifications</a>
+                </li>
+                <li>
+                    <img src="<%= settingsIconPath %>" width="20" alt="Settings">
+                    <a href="#">Settings</a>
+                </li>
+                <li>
+                    <img src="<%= logoutIconPath %>" width="20" alt="Logout">
+                    <a href="#">Logout</a>
+                </li>
+                <li><a href="request.ejs" class="request-button">Request</a></li>
+            </ul>
+        </div>
+    </div>
+
+    </section>
+
+    <div class="form-container">
+        <h2>Request Trash Pickup</h2>
+        <form id="trashPickupForm" action="pay.ejs" method="GET">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="postalCode">Postal Code:</label>
+            <input type="text" id="postalCode" name="postalCode" required>
+
+            <label for="trashType">Type of Trash:</label>
+            <select id="trashType" name="trashType" required>
+                <option value="">Select Trash Type</option>
+                <option value="household">Household Waste</option>
+                <option value="electronic">Electronic Waste</option>
+                <option value="garden">Garden Waste</option>
+                <option value="hazardous">Hazardous Waste</option>
+            </select>
+
+            <label for="province">Province:</label>
+            <select id="province" name="province" required>
+                <option value="">Select Province</option>
+                <% provinces.forEach(function(province) { %>
+                    <option value="<%= province %>"><%= province %></option>
+                <% }); %>
+            </select>
+
+            <label for="availableTime">Available Time:</label>
+            <select id="availableTime" name="availableTime" required>
+                <option value="">Select Available Time</option>
+                <optgroup label="Morning">
+                    <option value="6:00 AM - 8:00 AM">6:00 AM - 8:00 AM</option>
+                    <option value="8:00 AM - 10:00 AM">8:00 AM - 10:00 AM</option>
+                    <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
+                </optgroup>
+                <optgroup label="Afternoon">
+                    <option value="12:00 PM - 2:00 PM">12:00 PM - 2:00 PM</option>
+                    <option value="2:00 PM - 4:00 PM">2:00 PM - 4:00 PM</option>
+                    <option value="4:00 PM - 6:00 PM">4:00 PM - 6:00 PM</option>
+                </optgroup>
+                <optgroup label="Night">
+                    <option value="6:00 PM - 8:00 PM">6:00 PM - 8:00 PM</option>
+                    <option value="8:00 PM - 10:00 PM">8:00 PM - 10:00 PM</option>
+                    <option value="10:00 PM - 12:00 AM">10:00 PM - 12:00 AM</option>
+                </optgroup>
+            </select>
+
+            <button type="submit" class="check-out-btn">Checkout</button>
+        </form>
+    </div>
+
+    <section class="footer">
+        <div class="footer-2">
+            <div class="footer-1">
+                <a href="bookingsystem.ejs" class="logo">
+                    <img src="<%= logoImagePath %>" width="100px" height="100px"  alt="Website Logo">
+                </a>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact us</h4>
+                <div class="contact-icons">
+                    <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p> <%= contactAddress %> </p>
+                    <i class="fa fa-phone" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= contactPhone %></p>
+                    <i class="fa fa-envelope" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= contactEmail %></p>
+                </div>
+            </div>
+
+            <div class="footer-payment">
+                <h4> Payment Gateway</h4>
+                <div class="payment-icons">
+                    <% paymentMethods.forEach(function(method) { %>
+                        <img src="<%= method %>" />
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="booking.js"></script>
+
+</body>
+
+</html>

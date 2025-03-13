@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page - BinIt</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+
+    <section class="head"> 
+        <div class="headnav">
+            <ul class="navbar">
+                <li>
+                    <a href="bookingsystem.ejs" class="logo">
+                        <img src="<%= logoImagePath %>" width="100px" height="100px" alt="Website Logo">
+                    </a>
+                </li>
+
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="faq.ejs">FAQs</a></li>
+                <li><a href="#contact">Contact</a></li>
+
+                <li>
+                    <img src="<%= userIconPath %>" width="20px"/>
+                </li>
+
+                <li class="profile-icon" onclick="toggleMenu()">
+                    <img src="<%= profileImagePath %>" width="50px" alt="Profile Icon"/>
+                </li>
+            </ul>
+        </div>
+
+        <div id="sideMenu" class="side-menu">
+            <button class="close-btn" onclick="toggleMenu()">&times;</button>
+            <ul>
+                <li>
+                    <img src="<%= notificationIconPath %>" width="20px"/>
+                    <a href="#">Notifications</a>
+                </li>
+
+                <li>
+                    <img src="<%= settingsIconPath %>" width="20px"/>
+                    <a href="#">Settings</a>
+                </li>
+
+                <li>
+                    <img src="<%= logoutIconPath %>" width="20px"/>
+                    <a href="#">Logout</a>
+                </li>
+                <li><a href="Images/request.png" class="request-button">Request</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="payment-container">
+        <h2 style="color: green;">Enter Your Payment Details</h2>
+
+        <form action="<%= confirmAction %>" method="POST">
+            <!-- Card Number -->
+            <label for="card-number">Card Number</label>
+            <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9012 3456" required>
+
+            <!-- Expiry Date & CVV -->
+            <div class="card-details">
+                <div>
+                    <label for="expiry">Expiry Date</label>
+                    <input type="text" id="expiry" name="expiry" placeholder="MM/YY" required>
+                </div>
+                <div>
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" name="cvv" placeholder="123" required>
+                </div>
+            </div>
+
+            <!-- OTP Pin -->
+            <label for="otp">Enter OTP</label>
+            <input type="text" id="otp" name="otp" placeholder="123456" required>
+
+            <!-- Coupon Code (Optional) -->
+            <label for="coupon">Coupon Code (Optional)</label>
+            <input type="text" id="coupon" name="coupon" placeholder="Enter your coupon code">
+
+            <!-- Buttons -->
+            <div class="btn-group">
+                <button type="submit" class="btn proceed-btn">Proceed</button>
+                <button type="button" class="btn skip-btn">Skip Coupon</button>
+            </div>
+        </form>
+    </div>
+
+    <section class="footer">
+        <div class="footer-2">
+            <div class="footer-1">
+                <a href="bookingsystem.ejs" class="logo">
+                    <img src="<%= logoImagePath %>" width="100px" height="100px" alt="Website Logo">
+                </a>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact us</h4>
+                <div class="contact-icons">
+                    <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= contactAddress %></p>
+                    <i class="fa fa-phone" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= contactPhone %></p>
+                    <i class="fa fa-envelope" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= contactEmail %></p>
+                </div>
+            </div>
+
+            <div class="footer-payment">
+                <h4> Payment Gateway</h4>
+                <div class="payment-icons">
+                    <% paymentMethods.forEach(function(method) { %>
+                        <img src="<%= method %>" />
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="booking.js"></script>
+</body>
+</html>

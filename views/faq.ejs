@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/profile.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <title><%= pageTitle %></title>  <!-- Dynamic title -->
+</head>
+
+<body>
+    <section class="head">
+        <div class="headnav">
+            <ul class="navbar">
+                <li>
+                    <a href="/" class="logo">
+                        <img src="<%= logoImagePath %>" width="100px" height="100px" alt="Website Logo">
+                    </a>
+                </li>
+                <li><a href="/">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="faq">FAQs</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#orderapickup" class="request-button">Request</a></li>
+                <li class="profile-icon" onclick="toggleMenu()">
+                    <img src="Images/User-64.webp" width="50px" alt="Profile Icon"/>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Side Menu -->
+        <div id="sideMenu" class="side-menu">
+            <button class="close-btn" onclick="toggleMenu()">&times;</button>
+            <ul>
+                <li><img src="Images/User-64.webp" width="20px"/><a href="#">Profile</a></li>
+                <li><img src="Images/settings-64.webp" width="20px"/><a href="#">Settings</a></li>
+                <li><img src="Images/Notification-64.webp" width="20px"/><a href="#">Notifications</a></li>
+                <li><img src="Images/logout-64.webp" width="20px"/><a href="#">Logout</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <h1 style="text-align: center; color: green;">HOW CAN WE HELP?</h1>
+    <h2 style="text-align: center;">Frequently Asked Questions</h2>
+    <p style="text-align: center;">To learn more about BinIt and for further assistance, please fill in the form below.</p>
+
+    <section class="accordion-section">
+        <div class="offer-container">
+            <h2 style="font-size: 2rem; margin-top: 1.5rem; text-align: center;">FAQ</h2>
+
+            <!-- FAQ Question 1 -->
+            <div class="accordion-container">
+                <h4>What is Binit?</h4>
+            </div>
+            <div class="accordion2">
+                <p>Binit is a web application designed to streamline waste management by allowing home residents to request waste pickups and enabling servicemen to provide collection services efficiently.</p>
+            </div>
+
+            <!-- FAQ Question 2 -->
+            <div class="accordion-container">
+                <h4>How does Binit work?</h4>
+            </div>
+            <div class="accordion2">
+                <p>Residents subscribe to Binit, schedule waste pickups, and select the type of waste for disposal. Servicemen receive requests and handle waste collection accordingly.</p>
+            </div>
+
+            <!-- FAQ Question 3 -->
+            <div class="accordion-container">
+                <h4>Who can use Binit?</h4>
+            </div>
+            <div class="accordion2">
+                <p>Binit is available to <span style="color: green;">home residents</span> for waste disposal requests and servicemen for waste collection services.</p>
+            </div>
+
+            <!-- FAQ Question 4 -->
+            <div class="accordion-container">
+                <h4>Is Binit available in my area?</h4>
+            </div>
+            <div class="accordion2">
+                <p>Our services are currently available in [your service locations]. You can check availability by entering your address on our platform.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <section class="footer">
+        <div class="footer-2">
+            <div class="footer-1">
+                <a href="/" class="logo">
+                    <img src="<%= logoImagePath %>" width="100px" height="100px" alt="Website Logo">
+                </a>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact us</h4>
+                <div class="contact-icons">
+                    <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= contactDetails.address %></p>  <!-- Dynamic address -->
+                    <i class="fa fa-phone" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= contactDetails.phone %></p>  <!-- Dynamic phone -->
+                    <i class="fa fa-envelope" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= contactDetails.email %></p>  <!-- Dynamic email -->
+                </div>
+            </div>
+
+            <div class="footer-payment">
+                <h4>Payment Gateway</h4>
+                <div class="payment-icons">
+                    <% paymentIcons.forEach(function(icon) { %>
+                        <img src="<%= icon %>" alt="Payment Icon" />
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

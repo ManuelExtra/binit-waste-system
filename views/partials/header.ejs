@@ -1,0 +1,54 @@
+<nav class="navbar grotesk">
+  <div class="container lg:px-[120px]">
+    <a href="#" class="logo">
+      <img src="./images/logo.png" alt="Logo" class="logo-img" />
+    </a>
+
+    <!-- <div class="menu-toggle hidden" id="mobile-menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div> -->
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a href="/" class="nav-link <%= page === 'home' && 'active' %>">HOME</a>
+      </li>
+      <li class="nav-item">
+        <a
+          href="/about-us"
+          class="nav-link <%= page === 'about-us' && 'active' %>"
+          >ABOUT</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="/services"
+          class="nav-link <%= page === 'services' && 'active' %>"
+          >SERVICES</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="/pricing"
+          class="nav-link <%= page === 'pricing' && 'active' %>"
+          >PRICING</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          href="/contact"
+          class="nav-link <%= page === 'contact' && 'active' %>"
+          >CONTACT</a
+        >
+      </li>
+    </ul>
+    <div class="user-menu">
+      <a href="#" class="user-button" id="user-menu-button">SIGNUP</a>
+    </div>
+    <div class="menu-toggle ml-4" id="mobile-menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Binit</title>
+    <link rel="stylesheet" href="/css/signin.css">
+</head>
+<body>
+    <header class="head"> 
+        <nav class="headnav">
+            <ul class="navbar">
+                <li><a href="/" class="logo"><img src="/images/logo_transparent.png" width="100" height="100" alt="Logo"></a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/faq">FAQs</a></li>
+                <li><a href="/contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-container">
+            <h2>Sign In</h2>
+            <form id="signin-form" method="POST" action="/signin">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="<%= username || '' %>" required>
+                <% if (errors.username) { %>
+                <span class="error-message"><%= errors.username %></span>
+                <% } %>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" value="<%= password || '' %>" required>
+                <% if (errors.password) { %>
+                <span class="error-message"><%= errors.password %></span>
+                <% } %>
+                <button type="submit">Sign In</button>
+                <% if (errors.general) { %>
+                    <p class="error-message"><%= errors.general %></p>
+                <% } %>
+                <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Binit. All rights reserved.</p>
+    </footer>
+</body>
+</html>

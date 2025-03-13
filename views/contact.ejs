@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BinIt - Waste Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <div class="bg-gray-100 lg:px-[180px] min-h-screen p-5">
+      <div class="mt-20">
+        <div>
+          <h1 class="text-4xl font-bold text-center mb-2 grotesk">
+            CONTACT US
+          </h1>
+          <p class="text-center text-gray-500 mb-6">
+            Any question or remarks? Just write us a message!
+          </p>
+          <div
+            class="bg-white shadow-lg rounded-lg w-full grid grid-cols-1 md:grid-cols-2 mt-10"
+          >
+            <!-- Left Side: Contact Info -->
+            <div class="bg-black text-white p-8 rounded-lg md:rounded-lg">
+              <h2 class="text-xl font-bold mb-4">Contact Information</h2>
+              <p class="mb-6">Say something to start a live chat!</p>
+
+              <div class="space-y-4 text-sm">
+                <div class="flex items-center space-x-2">
+                  <span>📞</span>
+                  <p>+1 032 3452 789</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span>📧</span>
+                  <p>Binit@gmail.com</p>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span>📍</span>
+                  <p>
+                    132 Dartmouth Street Boston, <br />
+                    Massachusetts 02156 United States
+                  </p>
+                </div>
+              </div>
+
+              <div class="flex space-x-4 mt-6">
+                <span>🐦</span>
+                <span>📘</span>
+                <span>📸</span>
+              </div>
+            </div>
+
+            <!-- Right Side: Contact Form -->
+            <div class="p-8">
+              <form action="#" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium">First Name</label>
+                    <input
+                      type="text"
+                      class="w-full border border-gray-300 p-2 rounded-md"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium">Last Name</label>
+                    <input
+                      type="text"
+                      class="w-full border border-gray-300 p-2 rounded-md"
+                    />
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium">Email</label>
+                    <input
+                      type="email"
+                      class="w-full border border-gray-300 p-2 rounded-md"
+                    />
+                  </div>
+
+                  <div>
+                    <label class="block text-sm font-medium"
+                      >Phone Number</label
+                    >
+                    <input
+                      type="tel"
+                      class="w-full border border-gray-300 p-2 rounded-md"
+                      value="+1 032 3452 789"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium">Message</label>
+                  <textarea
+                    class="w-full border border-gray-300 p-2 rounded-md"
+                    rows="4"
+                    placeholder="Write your message..."
+                  ></textarea>
+                </div>
+
+                <button class="bg-green-500 text-white w-full py-2 rounded-md">
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

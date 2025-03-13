@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BinIt - Waste Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <!-- Pricing Section -->
+    <section class="py-16 px-6">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold text-green-700 grotesk uppercase">
+          Our Pricing Plans
+        </h1>
+        <p class="text-gray-500 mt-2">
+          Choose the perfect plan for your waste management needs.
+        </p>
+      </div>
+
+      <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Basic Plan -->
+        <div
+          class="bg-white shadow-lg rounded-lg p-8 text-center border-t-4 border-green-500"
+        >
+          <h2 class="text-2xl font-bold text-green-600 grotesk">Basic Plan</h2>
+          <p class="text-4xl font-bold my-4 grotesk">
+            $19<span class="text-xl">/mo</span>
+          </p>
+          <p class="text-gray-500 mb-4">Perfect for small households.</p>
+          <ul class="text-left space-y-2 mb-6">
+            <li>✅ Weekly Pickups</li>
+            <li>✅ Waste Sorting Guide</li>
+            <li>✅ Recycling Tips</li>
+            <li>❌ Real-time Waste Tracking</li>
+          </ul>
+          <button
+            class="bg-green-500 text-white w-full py-2 rounded-md grotesk"
+          >
+            Get Started
+          </button>
+        </div>
+
+        <!-- Standard Plan -->
+        <div
+          class="bg-green-600 text-white shadow-lg rounded-lg p-8 text-center transform scale-105"
+        >
+          <h2 class="text-2xl font-bold grotesk">Standard Plan</h2>
+          <p class="text-4xl font-bold my-4 grotesk">
+            $39<span class="text-xl">/mo</span>
+          </p>
+          <p class="text-gray-200 mb-4">Best for medium households.</p>
+          <ul class="text-left space-y-2 mb-6">
+            <li>✅ Bi-weekly Pickups</li>
+            <li>✅ Waste Sorting Guide</li>
+            <li>✅ Recycling Solutions</li>
+            <li>✅ Real-time Waste Tracking</li>
+          </ul>
+          <button
+            class="bg-white text-green-600 w-full py-2 rounded-md grotesk"
+          >
+            Get Started
+          </button>
+        </div>
+
+        <!-- Premium Plan -->
+        <div
+          class="bg-white shadow-lg rounded-lg p-8 text-center border-t-4 border-green-500"
+        >
+          <h2 class="text-2xl font-bold text-green-600 grotesk">
+            Premium Plan
+          </h2>
+          <p class="text-4xl font-bold my-4 grotesk">
+            $59<span class="text-xl">/mo</span>
+          </p>
+          <p class="text-gray-500 mb-4 grotesk">
+            Ideal for businesses and large households.
+          </p>
+          <ul class="text-left space-y-2 mb-6">
+            <li>✅ Daily Pickups</li>
+            <li>✅ Waste Sorting Guide</li>
+            <li>✅ Smart Recycling Solutions</li>
+            <li>✅ Real-time Waste Tracking</li>
+            <li>✅ Dedicated Support</li>
+          </ul>
+          <button
+            class="bg-green-500 text-white w-full py-2 rounded-md grotesk"
+          >
+            Get Started
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

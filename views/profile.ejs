@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="profile.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="booking.js" defer></script>
+   
+     <title>profile</title>
+</head>
+
+<body>
+    <section class="head"> 
+        <div class="headnav">
+            <ul class="navbar">
+                <li>
+                    <a href="/" class="logo">
+                        <img src="/images/logo_transparent.png" width="100px" height="100px" alt="Website Logo">
+                    </a>
+                </li>
+
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="faq.html">FAQs</a></li>
+                <li><a href="#contact">Contact</a></li>
+                
+                <li>
+                    <img src="/Public/images/User-64.webp" width="20px">
+                </li>
+
+                <li class="profile-icon" onclick="toggleMenu()">
+                    <img src="/Public/images/User-64.webp" width="50px" alt="Profile Icon"/>
+                </li>
+            </ul>
+        </div>
+
+        <div id="sideMenu" class="side-menu">
+            <button class="close-btn" onclick="toggleMenu()">&times;</button>
+            <ul>
+                <li>
+                    <img src="<%= notificationIcon %>" width="20px"/>
+                    <a href="#">Notifications</a>
+                </li>
+
+                <li>
+                    <img src="<%= settingsIcon %>" width="20px"/>
+                    <a href="#">Settings</a>
+                </li>
+                
+                <li>
+                    <img src="<%= logoutIcon %>" width="20px"/>
+                    <a href="#">Logout</a>
+                </li>
+                <li><a href="request.html" class="request-button">Request</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="home" id="home">
+        <div class="about-container">
+            <div class="column-1">
+                <h2 style="text-align: center;">Simple and convenient garbage removal service across Ontario with BinIt.</h2>
+                <p style="margin-top: 20px; text-align: center;"> 
+                    At <span style="color: green;">BinIt</span>, we believe that hassle-free waste disposal makes life easier, giving you more time for what truly matters. 
+                    Imagine a cleaner Ontario without the stress of managing your garbage—just schedule a pickup and let us handle the rest!
+                    <span style="color: green;">Effortless waste disposal for a cleaner Ontario!</span>
+                </p>
+                <div class="parisvideo">
+                    <img src="<%= wasteImageUrl %>" width="400px" height="350px" alt="waste"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="secondcontainer">
+        <h2 style="font-size: 2rem; text-align: center;">Take Control of Your Environment</h2>
+        <div class="best-container">
+            <div class="plastics-container">
+                <img src="<%= trashBinImageUrl %>" width="100px" alt="garbage truck"/>
+                <p style="font-weight: bold;">Select your waste category: Plastics & Containers (PET, Bottles) or Organic Waste (Food Scraps).</p>
+            </div>
+    
+            <div class="food-waste-container">
+                <img src="<%= garbageTruckImageUrl %>" width="100px" alt="a"/>
+                <p style="font-weight: bold;">Request for waste pickup in any location.</p>
+            </div>
+    
+            <div class="mixed-waste-container">
+                <img src="<%= signUpImageUrl %>" width="100px"/>
+                <p style="font-weight: bold;">Register to pick up waste in your preferred
+                     area and help keep your community clean and sustainable.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="feature-container">
+        <h2 style="font-size: 2rem; margin-top: 1.5rem; text-align: center;">Features of the Binit Web App</h2>
+        <p style="text-align: center;">Optimizing waste management with cost-effective and efficient evacuation solutions.</p>
+    
+        <div class="container-icons">
+            <% features.forEach(function(feature) { %>
+                <div class="feature-icon">
+                    <img src="<%= feature.imageUrl %>" width="50" height="50" alt="<%= feature.name %> Icon">
+                    <h3 style="font-size: 1.8rem;"><%= feature.name %></h3>
+                    <p><%= feature.description %></p>
+                </div>
+            <% }) %>
+        </div>
+    </section>
+
+    <section class="accordion-section">
+        <div class="offer-container">
+            <h2 style="font-size: 2rem; margin-top: 1.5rem; text-align: center;">FAQ</h2>
+            <div class="accordion-container">
+                <h4>What is Binit?</h4>
+            </div>
+            <div class="accordion2">
+                <p>Binit is a web application designed to streamline waste management by allowing home residents to request waste pickups and enabling servicemen to provide collection services efficiently.</p> 
+            </div>
+
+            <div class="accordion-container">
+                <h4>How does Binit work?</h4>
+            </div>
+            <div class="accordion2">
+                <p>Residents subscribe to Binit, schedule waste pickups, and select the type of waste for disposal. Servicemen receive requests and handle waste collection accordingly.</p> 
+            </div>
+
+            <div class="accordion-container">
+                <h4>Who can use Binit?</h4>
+            </div>
+            <div class="accordion2">
+                <p>Binit is available to <span style="color: green;">home residents</span> for waste disposal requests and servicemen for waste collection services.</p> 
+            </div>
+
+            <div class="accordion-container">
+                <h4>Is Binit available in my area?</h4>
+            </div>
+            <div class="accordion2">
+                <p>Our services are currently available in <%= serviceLocations %>. You can check availability by entering your address on our platform.</p> 
+            </div>
+
+        </div>
+        <a href="faq.html" class="faq-button">See More FAQ</a>
+    </section>
+
+    <section class="footer">
+        <div class="footer-2">
+            <div class="footer-1">
+                <a href="bookingsystem.html" class="logo">
+                    <img src="<%= logoUrl %>" width="100px" height="100px"  alt="Website Logo">
+                </a>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Contact us</h4>
+                <div class="contact-icons">
+                    <i class="fa fa-map-marker" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= address %></p>
+                    <i class="fa fa-phone" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= phoneNumber %></p>
+                    <i class="fa fa-envelope" aria-hidden="true" style="font-size: 1.5rem;"></i>
+                    <p><%= email %></p>
+                </div>
+            </div>
+
+            <div class="footer-payment">
+                <h4> Payment Gateway</h4>
+                <div class="payment-icons">
+                    <% paymentMethods.forEach(function(method) { %>
+                        <img src="<%= method.imageUrl %>" alt="<%= method.name %>" />
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- <script>
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            slidesPerView: 2,
+            spaceBetween: 30,
+            centeredSlides: false,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+
+        let add = document.getElementsByClassName("accordion-container");
+        for (let i = 0; i < add.length; i++) {
+            add[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var bobo = this.nextElementSibling;
+                if (bobo.style.display === "block") {
+                    bobo.style.display = "none";
+                } else {
+                    bobo.style.display = "block";
+                }
+            });
+        }
+    </script> -->
+    
+</body>
+
+</html>
