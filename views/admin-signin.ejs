@@ -18,19 +18,8 @@
 
     <section class="min-h-screen bg-[#00c200] flex items-center justify-center">
       <div class="bg-white p-10 shadow-md w-full max-w-lg">
-        <h1 class="text-4xl mb-10 grotesk">Get Started Now</h1>
+        <h1 class="text-4xl mb-10 grotesk">Admin Login</h1>
         <form action="/signup" method="POST" class="space-y-4">
-          <div>
-            <label class="block">Name</label>
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              class="w-full p-2 border rounded-2xl"
-              required
-            />
-          </div>
-
           <div>
             <label class="block">Email address</label>
             <input
@@ -57,12 +46,12 @@
             type="submit"
             class="w-full bg-[#00c200] hover:bg-green-600 text-white p-2 rounded-2xl"
           >
-            Signup
+            Login
           </button>
         </form>
 
         <p class="text-center mt-4">
-          Have an account? <a href="/signin" class="text-blue-500">Sign In</a>
+          <a href="/forgot-password" class="text-blue-500">Forgot password</a>
         </p>
       </div>
     </section>

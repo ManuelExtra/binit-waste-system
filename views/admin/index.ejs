@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <div class="flex min-h-screen">
+      <%- include('../partials/admin-sidebar') %>
+
+      <!-- Main Content -->
+      <main class="flex w-full gap-3">
+        <div class="flex flex-col flex-[3] p-6 gap-3 bg-[#ECEEF6]">
+          <!-- Header -->
+          <div class="flex mb-5">
+            <input
+              type="text"
+              placeholder="Search..."
+              class="p-2 border rounded-lg w-72"
+            />
+          </div>
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">Overview</h2>
+          </div>
+
+          <div class="flex flex-col">
+            <!-- Stats Section -->
+            <div class="grid grid-cols-3 gap-4 mb-6">
+              <div class="flex p-4 bg-white rounded-lg shadow-md gap-4">
+                <div class="p-5 bg-[#79BF79] text-[#79BF79] rounded-lg">
+                  Icon
+                </div>
+                <div class="flex flex-col justify-center">
+                  Customers <span class="block text-2xl font-bold">1,300</span>
+                </div>
+              </div>
+
+              <div class="flex p-4 bg-white rounded-lg shadow-md gap-4">
+                <div class="p-5 bg-yellow-400 text-yellow-400 rounded-lg">
+                  Icon
+                </div>
+                <div class="flex flex-col justify-center">
+                  Employees <span class="block text-2xl font-bold">1,300</span>
+                </div>
+              </div>
+
+              <div class="flex p-4 bg-white rounded-lg shadow-md gap-4">
+                <div class="p-5 bg-[#037676] text-[#037676] rounded-lg">
+                  Icon
+                </div>
+                <div class="flex flex-col justify-center">
+                  Request <span class="block text-2xl font-bold">1,300</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Details and Chart -->
+            <div class="grid grid-cols-3 gap-4 mb-6">
+              <!-- Request Info -->
+              <div class="bg-white p-8 rounded-lg shadow-md col-span-2">
+                <div class="flex justify-between mb-4">
+                  <div>
+                    <p>Request Number</p>
+                    <p class="font-bold mb-3">EV-2017002344</p>
+                    <p class="text-gray-400">Biodegradable material</p>
+                  </div>
+                  <div>
+                    <img src="/images/Recycling_Truck.png" class="w-20" />
+                  </div>
+                </div>
+                <hr />
+
+                <ol
+                  class="relative border-s border-[#E3E3E3] dark:border-[#E3E3E3] mt-6"
+                >
+                  <li class="mb-10 ms-6">
+                    <span
+                      class="absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white dark:ring-[#E8F9EE] dark:bg-blue-900"
+                    >
+                      <img src="/images/Ellipse45.png" />
+                    </span>
+                    <h3
+                      class="flex items-center mb-1 text-lg font-semibold text-gray-900"
+                    >
+                      2972 Westheimer
+                    </h3>
+
+                    <p
+                      class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
+                    >
+                      Rd. Santa Ana. Illinois 85486
+                    </p>
+                  </li>
+                  <li class="mb-10 ms-6">
+                    <span
+                      class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-[#E8F9EE] dark:bg-blue-900"
+                    >
+                      <img src="/images/location.png" />
+                    </span>
+                    <h3 class="mb-1 text-lg font-semibold text-gray-900">
+                      8502 Preston
+                    </h3>
+
+                    <p
+                      class="text-base font-normal text-gray-500 dark:text-gray-400"
+                    >
+                      Rd. Inglewood. Maine 98380
+                    </p>
+                  </li>
+                </ol>
+
+                <hr />
+
+                <div class="flex justify-between my-4">
+                  <div class="flex gap-2 items-center">
+                    <img src="/images/Ellipse47.png" class="h-20 w-20" />
+                    <div>
+                      <p class="text-[#B0B0B0]">Client</p>
+                      <p class="font-bold">Jenny Wilson</p>
+                      <p class="">Food State, LTD</p>
+                    </div>
+                  </div>
+                  <div class="flex gap-4 items-center">
+                    <button class="bg-[#F7F5FF] p-3 rounded-xl">
+                      <img src="/images/call.png" class="w-8 h-8" />
+                    </button>
+                    <button class="bg-[#F7F5FF] p-3 rounded-xl">
+                      <img src="/images/message-text.png" class="w-8 h-8" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Waste Data -->
+              <div
+                class="bg-green-500 text-white p-8 rounded-2xl shadow-md flex justify-center items-center"
+              >
+                <div>
+                  <div class="text-2xl">
+                    <p>Total category waste</p>
+                    <p class="font-bold">20</p>
+                  </div>
+                  <div class="mt-6 text-2xl">
+                    <p>Total waste in</p>
+                    <span class="font-bold">564kg</span>
+                  </div>
+                  <div class="mt-6 text-2xl">
+                    <p>Total waste out</p>
+                    <span class="font-bold">564kg</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transactions -->
+            <div class="bg-white p-4 rounded-lg shadow-md">
+              <p class="text-xl font-bold">Last Transactions</p>
+              <div class="p-6 rounded-lg">
+                <div class="flex justify-between mb-4">
+                  <h2 class="text-lg font-bold">Waste in & Out</h2>
+                  <span class="text-gray-500">7 Days</span>
+                </div>
+                <canvas id="wasteChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col flex-1 p-6">
+          <div class="flex justify-end mt-10">
+            <div class="bg-[#00c200] text-[#fff] p-2 rounded-xl">AD</div>
+          </div>
+
+          <div
+            class="rounded-2xl p-8 mt-6 bg-gradient-to-r from-[#FEB3AF] via-[#DC84DE] to-[#84D5EA] text-white"
+          >
+            <div class="flex justify-between">
+              <div>Customers</div>
+              <div class="relative flex items-center pr-3">
+                <img
+                  src="/images/Ellipse800.png"
+                  class="w-8 h-8 relative z-10"
+                />
+                <img
+                  src="/images/Ellipse800.png"
+                  class="w-8 h-8 absolute left-4 top-0 z-20"
+                />
+              </div>
+            </div>
+            <div class="mt-8 flex flex-col gap-2">
+              <p class="font-bold">Your Income</p>
+              <p class="font-bold text-4xl">$1,300</p>
+            </div>
+          </div>
+
+          <div class="mt-4">
+            <div class="flex justify-between">
+              <p>Last Transaction</p>
+              <a href="" class="text-[#00c200] font-bold">See all</a>
+            </div>
+            <div class="flex flex-col mt-5 gap-6">
+              <div class="flex justify-between">
+                <div class="flex gap-2">
+                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
+                  <div>
+                    <p class="font-bold text-[#535353]">Deposit waste</p>
+                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end">
+                  <p class="font-bold text-[#535353]">$20</p>
+                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
+                </div>
+              </div>
+              <div class="flex justify-between">
+                <div class="flex gap-2">
+                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
+                  <div>
+                    <p class="font-bold text-[#535353]">Deposit waste</p>
+                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end">
+                  <p class="font-bold text-[#535353]">$20</p>
+                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
+                </div>
+              </div>
+              <div class="flex justify-between">
+                <div class="flex gap-2">
+                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
+                  <div>
+                    <p class="font-bold text-[#535353]">Deposit waste</p>
+                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end">
+                  <p class="font-bold text-[#535353]">$20</p>
+                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
+                </div>
+              </div>
+              <div class="flex justify-between">
+                <div class="flex gap-2">
+                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
+                  <div>
+                    <p class="font-bold text-[#535353]">Deposit waste</p>
+                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end">
+                  <p class="font-bold text-[#535353]">$20</p>
+                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
+                </div>
+              </div>
+              <div class="flex justify-between">
+                <div class="flex gap-2">
+                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
+                  <div>
+                    <p class="font-bold text-[#535353]">Deposit waste</p>
+                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end">
+                  <p class="font-bold text-[#535353]">$20</p>
+                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
+                </div>
+              </div>
+              <div class="flex justify-between">
+                <div class="flex gap-2">
+                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
+                  <div>
+                    <p class="font-bold text-[#535353]">Deposit waste</p>
+                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end">
+                  <p class="font-bold text-[#535353]">$20</p>
+                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script>
+      const ctx = document.getElementById('wasteChart').getContext('2d');
+      const wasteChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+          ],
+          datasets: [
+            {
+              label: 'Waste In',
+              data: [200, 400, 600, 800, 1000, 700, 500],
+              borderColor: 'rgb(255, 99, 132)',
+              tension: 0.4,
+            },
+            {
+              label: 'Waste Out',
+              data: [300, 500, 400, 600, 800, 1000, 900],
+              borderColor: 'rgb(75, 192, 192)',
+              tension: 0.4,
+            },
+          ],
+        },
+      });
+    </script>
+  </body>
+</html>

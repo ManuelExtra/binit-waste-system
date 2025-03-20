@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body class="bg-gray-100 font-sans">
+    <div class="flex min-h-screen">
+      <%- include('../partials/admin-sidebar') %>
+
+      <!-- Main Content -->
+      <main class="flex w-full gap-3">
+        <div class="flex flex-col flex-[3] p-6 gap-3 bg-[#ECEEF6]">
+          <!-- Header -->
+          <div class="flex mb-5">
+            <input
+              type="text"
+              placeholder="Search..."
+              class="p-2 border rounded-lg w-72"
+            />
+          </div>
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-bold">History</h2>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="bg-gray-200">
+                  <th class="py-3 px-4 text-gray-600">History ID</th>
+                  <th class="py-3 px-4 text-gray-600">Date</th>
+                  <th class="py-3 px-4 text-gray-600">Event</th>
+                  <th class="py-3 px-4 text-gray-600">Details</th>
+                  <th class="py-3 px-4 text-gray-600">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t">
+                  <td class="py-3 px-4">HIS-001</td>
+                  <td class="py-3 px-4">2025-03-10</td>
+                  <td class="py-3 px-4">System Update</td>
+                  <td class="py-3 px-4">Version 1.1 deployed</td>
+                  <td class="py-3 px-4">
+                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
+                      View
+                    </button>
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="py-3 px-4">HIS-002</td>
+                  <td class="py-3 px-4">2025-03-12</td>
+                  <td class="py-3 px-4">Password Reset</td>
+                  <td class="py-3 px-4">Admin password changed</td>
+                  <td class="py-3 px-4">
+                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
+                      View
+                    </button>
+                  </td>
+                </tr>
+                <tr class="border-t">
+                  <td class="py-3 px-4">HIS-003</td>
+                  <td class="py-3 px-4">2025-03-14</td>
+                  <td class="py-3 px-4">New User Added</td>
+                  <td class="py-3 px-4">John Doe (Admin)</td>
+                  <td class="py-3 px-4">
+                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
+                      View
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

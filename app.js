@@ -42,12 +42,18 @@ app.get('/contact', (req, res) => {
 
 // Route for Sign-In page
 app.get('/signin', (req, res) => {
-  res.render('signin', { errors: {}, username: '', password: '' });
+  res.render('signin', {
+    page: 'signin',
+    errors: {},
+    username: '',
+    password: '',
+  });
 });
 
 // Route for Sign-Up page
 app.get('/signup', (req, res) => {
   res.render('signup', {
+    page: 'signup',
     errors: {},
     fullname: '',
     email: '',
@@ -56,6 +62,76 @@ app.get('/signup', (req, res) => {
     province: '',
     password: '',
     confirmPassword: '',
+  });
+});
+
+// Route for Admin Sign-In page
+app.get('/admin-signin', (req, res) => {
+  res.render('admin-signin', {
+    page: 'admin-signin',
+    errors: {},
+    username: '',
+    password: '',
+  });
+});
+
+// Route for Admin Landing page
+app.get('/admin/landing', (req, res) => {
+  res.render('admin/index', {
+    page: 'admin/landing',
+    errors: {},
+    username: '',
+    password: '',
+  });
+});
+
+// Route for Admin Requests page
+app.get('/admin/requests', (req, res) => {
+  res.render('admin/requests', {
+    page: 'admin/requests',
+    errors: {},
+    username: '',
+    password: '',
+  });
+});
+
+// Route for Admin History page
+app.get('/admin/history', (req, res) => {
+  res.render('admin/history', {
+    page: 'admin/history',
+    errors: {},
+    username: '',
+    password: '',
+  });
+});
+
+// Route for Admin Transactions page
+app.get('/admin/transactions', (req, res) => {
+  res.render('admin/transactions', {
+    page: 'admin/transactions',
+    errors: {},
+    username: '',
+    password: '',
+  });
+});
+
+// Route for Admin Trucks page
+app.get('/admin/trucks', (req, res) => {
+  res.render('admin/trucks', {
+    page: 'admin/trucks',
+    errors: {},
+    username: '',
+    password: '',
+  });
+});
+
+// Route for Admin Settings page
+app.get('/admin/settings', (req, res) => {
+  res.render('admin/settings', {
+    page: 'admin/settings',
+    errors: {},
+    username: '',
+    password: '',
   });
 });
 

@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - Binit</title>
-    <link rel="stylesheet" href="/css/signin.css">
-</head>
-<body>
-    <header class="head"> 
-        <nav class="headnav">
-            <ul class="navbar">
-                <li><a href="/" class="logo"><img src="/images/logo_transparent.png" width="100" height="100" alt="Logo"></a></li>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/faq">FAQs</a></li>
-                <li><a href="/contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BinIt - Waste Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <%- include('partials/header') %>
 
-    <main>
-        <div class="form-container">
-            <h2>Sign In</h2>
-            <form id="signin-form" method="POST" action="/signin">
-                <label for="username">Username</label>
-                <input type="text" id="username" name="username" value="<%= username || '' %>" required>
-                <% if (errors.username) { %>
-                <span class="error-message"><%= errors.username %></span>
-                <% } %>
+    <section class="min-h-screen bg-[#00c200] flex items-center justify-center">
+      <div class="bg-white p-10 shadow-md w-full max-w-lg">
+        <h1 class="text-4xl mb-10 grotesk">User Login</h1>
+        <form action="/signup" method="POST" class="space-y-4">
+          <div>
+            <label class="block">Email address</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              class="w-full p-2 border rounded-2xl"
+              required
+            />
+          </div>
 
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" value="<%= password || '' %>" required>
-                <% if (errors.password) { %>
-                <span class="error-message"><%= errors.password %></span>
-                <% } %>
-                <button type="submit">Sign In</button>
-                <% if (errors.general) { %>
-                    <p class="error-message"><%= errors.general %></p>
-                <% } %>
-                <p>Don't have an account? <a href="/signup">Sign Up</a></p>
-            </form>
-        </div>
-    </main>
+          <div>
+            <label class="block">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              class="w-full p-2 border rounded-2xl"
+              required
+            />
+          </div>
 
-    <footer class="footer">
-        <p>&copy; 2025 Binit. All rights reserved.</p>
-    </footer>
-</body>
+          <button
+            type="submit"
+            class="w-full bg-[#00c200] hover:bg-green-600 text-white p-2 rounded-2xl"
+          >
+            Login
+          </button>
+        </form>
+
+        <p class="text-center mt-4">
+          <a href="/forgot-password" class="text-blue-500">Forgot password</a>
+        </p>
+      </div>
+    </section>
+
+    <%- include('partials/footer') %>
+  </body>
 </html>
