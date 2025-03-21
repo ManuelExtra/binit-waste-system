@@ -4,7 +4,9 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "test": "jasmine"
+    "test": "jasmine",
+    "test:watch": "nodemon --exec 'npx jasmine'",
+    "test:coverage": "nyc npx jasmine"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,7 @@
     "jasmine": "^5.6.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "nodemon": "^3.1.9",
+    "nyc": "^17.1.0"
   }
 }
