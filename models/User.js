@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, enum: ['admin', 'user'], default: 'user' },
   location: { type: String },
+  coordinates: {
+    lat: { type: Number, required: true, default: 0 }, // Latitude
+    lng: { type: Number, required: true, default: 0 }, // Longitude
+  },
 });
 
 userSchema.pre('save', async function (next) {

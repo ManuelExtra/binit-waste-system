@@ -25,6 +25,7 @@
           <div class="flex mb-5">
             <input
               type="text"
+              id="search"
               placeholder="Search..."
               class="p-2 border rounded-lg w-72"
             />
@@ -39,50 +40,72 @@
                 <tr class="bg-gray-200">
                   <th class="py-3 px-4 text-gray-600">History ID</th>
                   <th class="py-3 px-4 text-gray-600">Date</th>
-                  <th class="py-3 px-4 text-gray-600">Event</th>
+                  <th class="py-3 px-4 text-gray-600">User</th>
+                  <th class="py-3 px-4 text-gray-600">Truck</th>
                   <th class="py-3 px-4 text-gray-600">Details</th>
-                  <th class="py-3 px-4 text-gray-600">Action</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr class="border-t">
-                  <td class="py-3 px-4">HIS-001</td>
-                  <td class="py-3 px-4">2025-03-10</td>
-                  <td class="py-3 px-4">System Update</td>
-                  <td class="py-3 px-4">Version 1.1 deployed</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
-                  </td>
-                </tr>
-                <tr class="border-t">
-                  <td class="py-3 px-4">HIS-002</td>
-                  <td class="py-3 px-4">2025-03-12</td>
-                  <td class="py-3 px-4">Password Reset</td>
-                  <td class="py-3 px-4">Admin password changed</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
-                  </td>
-                </tr>
-                <tr class="border-t">
-                  <td class="py-3 px-4">HIS-003</td>
-                  <td class="py-3 px-4">2025-03-14</td>
-                  <td class="py-3 px-4">New User Added</td>
-                  <td class="py-3 px-4">John Doe (Admin)</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
-                  </td>
-                </tr>
+              <tbody id="history-table">
+                <!-- Data will be inserted here -->
               </tbody>
             </table>
           </div>
         </div>
       </main>
     </div>
+
+    <script>
+      console.log(localStorage.getItem('token'));
+      async function fetchHistories() {
+        try {
+          const response = await fetch('/api/admin/histories', {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+          const histories = await response.json();
+
+          const tableBody = document.getElementById('history-table');
+          tableBody.innerHTML = ''; // Clear table before inserting new data
+
+          console.log(histories.length);
+
+          if (histories.length === 0) {
+            const row = document.createElement('tr');
+            row.classList.add('border-t');
+            row.innerHTML = `
+                <td colspan='5' class="py-3 px-4 text-center">No histories yet!</td>
+                `;
+            tableBody.appendChild(row);
+          } else {
+            histories.forEach((history) => {
+              const row = document.createElement('tr');
+              row.classList.add('border-t');
+
+              row.innerHTML = `
+                <td class="py-3 px-4">${history._id}</td>
+                <td class="py-3 px-4">${new Date(
+                  history.createdAt
+                ).toLocaleDateString()}</td>
+                <td class="py-3 px-4">${
+                  history.userId ? history.userId.name : 'N/A'
+                }</td>
+                <td class="py-3 px-4">${
+                  history.truckId ? history.truckId.name : 'N/A'
+                }</td>
+                <td class="py-3 px-4">${history.truckId.wasteName || 'N/A'}</td>
+              `;
+
+              tableBody.appendChild(row);
+            });
+          }
+        } catch (error) {
+          console.error('Error fetching histories:', error);
+        }
+      }
+
+      // Fetch histories when the page loads
+      window.onload = fetchHistories;
+    </script>
   </body>
 </html>

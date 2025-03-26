@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/styles.css" />
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+    ></script>
   </head>
   <body class="bg-gray-100 font-sans">
     <div class="flex min-h-screen">
@@ -21,29 +23,23 @@
       <!-- Main Content -->
       <main class="flex w-full">
         <div class="flex flex-col flex-[1] p-6 bg-[#ECEEF6]">
-          <!-- Header -->
-          <div class="flex mb-5">
-            <input
-              type="text"
-              placeholder="Search..."
-              class="p-2 border rounded-lg w-72"
-            />
-          </div>
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">Ongoing Collection</h2>
             <h2 class="text-2xl font-bold text-[#ACACAC]">Completed</h2>
           </div>
 
           <div class="flex flex-col">
-            <!-- Details and Chart -->
             <div class="grid grid-cols-1 gap-4 mb-6">
               <!-- Request Info -->
-              <div class="bg-white p-8 rounded-lg shadow-md col-span-2">
+              <div
+                id="request-info"
+                class="bg-white p-8 rounded-lg shadow-md col-span-2"
+              >
                 <div class="flex justify-between mb-4">
                   <div>
                     <p>Request Number</p>
-                    <p class="font-bold mb-3">EV-2017002344</p>
-                    <p class="text-gray-400">Biodegradable material</p>
+                    <p id="request-number" class="font-bold mb-3">Loading...</p>
+                    <p id="waste-type" class="text-gray-400">Loading...</p>
                   </div>
                   <div>
                     <img src="/images/Recycling_Truck.png" class="w-20" />
@@ -51,42 +47,32 @@
                 </div>
                 <hr />
 
-                <ol
-                  class="relative border-s border-[#E3E3E3] dark:border-[#E3E3E3] mt-6"
-                >
+                <ol class="relative border-s border-[#E3E3E3] mt-6">
                   <li class="mb-10 ms-6">
                     <span
-                      class="absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white dark:ring-[#E8F9EE] dark:bg-blue-900"
+                      class="absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white"
                     >
                       <img src="/images/Ellipse45.png" />
                     </span>
                     <h3
-                      class="flex items-center mb-1 text-lg font-semibold text-gray-900"
+                      id="pickup-location"
+                      class="text-lg font-semibold text-gray-900"
                     >
-                      2972 Westheimer
+                      Loading...
                     </h3>
-
-                    <p
-                      class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
-                    >
-                      Rd. Santa Ana. Illinois 85486
-                    </p>
                   </li>
                   <li class="mb-10 ms-6">
                     <span
-                      class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-[#E8F9EE] dark:bg-blue-900"
+                      class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white"
                     >
                       <img src="/images/location.png" />
                     </span>
-                    <h3 class="mb-1 text-lg font-semibold text-gray-900">
-                      8502 Preston
-                    </h3>
-
-                    <p
-                      class="text-base font-normal text-gray-500 dark:text-gray-400"
+                    <h3
+                      id="dropoff-location"
+                      class="text-lg font-semibold text-gray-900"
                     >
-                      Rd. Inglewood. Maine 98380
-                    </p>
+                      Loading...
+                    </h3>
                   </li>
                 </ol>
 
@@ -94,11 +80,15 @@
 
                 <div class="flex justify-between my-4">
                   <div class="flex gap-2 items-center">
-                    <img src="/images/Ellipse47.png" class="h-20 w-20" />
+                    <img
+                      id="client-avatar"
+                      src="/images/Ellipse47.png"
+                      class="h-20 w-20"
+                    />
                     <div>
                       <p class="text-[#B0B0B0]">Client</p>
-                      <p class="font-bold">Jenny Wilson</p>
-                      <p class="">Food State, LTD</p>
+                      <p id="client-name" class="font-bold">Loading...</p>
+                      <p id="client-company">Loading...</p>
                     </div>
                   </div>
                   <div class="flex gap-4 items-center">
@@ -114,17 +104,138 @@
             </div>
           </div>
         </div>
+
+        <!-- Google Maps -->
         <div class="flex flex-col flex-[2]">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d146814.12083336012!2d3.255283462330874!3d6.586371334957074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e6!4m3!3m2!1d6.6743751!2d3.3175743!4m5!1s0x103b8c1a0034df05%3A0x24bef921f4afb7f6!2sIlorin%20Street%2C%20Lagos!3m2!1d6.4982482!2d3.3489755999999997!5e1!3m2!1sen!2sng!4v1742509754952!5m2!1sen!2sng"
+          <div id="map" style="width: 100%; height: 100%"></div>
+          <!-- <iframe
+            id="mapFrame"
+            src=""
             class="w-full h-full"
             style="border: 0"
-            allowfullscreen=""
+            allowfullscreen
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+          ></iframe> -->
         </div>
       </main>
     </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const response = await fetch('/api/latest-request');
+          const data = await response.json();
+
+          if (!data || !data._id) {
+            document.getElementById('request-info').innerHTML =
+              '<p>No ongoing collections.</p>';
+            return;
+          }
+
+          //       // Extract coordinates
+          //       const truckLocation = `${data.truckId.coordinates.lat},${data.truckId.coordinates.lng}`;
+          //       const usercoordinates = `${data.userId.coordinates.lat},${data.userId.coordinates.lng}`;
+
+          //       // Update the Google Maps iframe dynamically
+          //       document.getElementById(
+          //         'mapFrame'
+          //       ).src = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyAIwFOTdlx81nptYnLuokKk34LHuSPz1wk&origin=${truckLocation}&destination=${usercoordinates}&mode=driving`;
+
+          //       document.getElementById("mapFrame");
+          // mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyAIwFOTdlx81nptYnLuokKk34LHuSPz1wk
+          //   &origin=${truckLocation}
+          //   &destination=${usercoordinates}
+          //   &mode=driving`;
+
+          const truckLocation = {
+            lat: data.truckId.coordinates.lat,
+            lng: data.truckId.coordinates.lng,
+          };
+          const userLocation = {
+            lat: data.userId.coordinates.lat,
+            lng: data.userId.coordinates.lng,
+          };
+
+          // Initialize the map centered at the truck location
+          const map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12,
+            center: truckLocation,
+          });
+
+          // Add Markers for Truck and User
+          const truckMarker = new google.maps.Marker({
+            position: truckLocation,
+            map: map,
+            title: 'Truck Location',
+            icon: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png', // Truck icon
+          });
+
+          const userMarker = new google.maps.Marker({
+            position: userLocation,
+            map: map,
+            title: 'User Location',
+            icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', // User icon
+          });
+
+          // Initialize Directions Service & Renderer
+          const directionsService = new google.maps.DirectionsService();
+          const directionsRenderer = new google.maps.DirectionsRenderer({
+            suppressMarkers: true, // We already added custom markers
+          });
+          directionsRenderer.setMap(map);
+
+          // Request the route from truck to user
+          directionsService.route(
+            {
+              origin: truckLocation,
+              destination: userLocation,
+              travelMode: google.maps.TravelMode.DRIVING,
+            },
+            (response, status) => {
+              if (status === 'OK') {
+                directionsRenderer.setDirections(response);
+
+                // Adjust map to fit both markers
+                const bounds = new google.maps.LatLngBounds();
+                bounds.extend(truckLocation);
+                bounds.extend(userLocation);
+                map.fitBounds(bounds);
+              } else {
+                console.error('Directions request failed due to ' + status);
+              }
+            }
+          );
+
+          // Populate request data
+          document.getElementById('request-number').textContent = data._id;
+          document.getElementById('waste-type').textContent =
+            data.truckId.wasteName || 'Unknown';
+          document.getElementById('pickup-location').textContent =
+            data.truckId.location || 'Unknown';
+          document.getElementById('dropoff-location').textContent =
+            data.userId.location || 'Unknown';
+
+          // Populate client info
+          if (data.userId) {
+            document.getElementById('client-name').textContent =
+              data.userId.name;
+            document.getElementById('client-company').textContent =
+              data.userId.email || 'N/A';
+            document.getElementById('client-avatar').src =
+              data.userId.profilePic || '/images/Ellipse47.png';
+          }
+
+          // // Set Google Maps location (if available)
+          // if (data.coordinates) {
+          //   document.getElementById(
+          //     'google-map'
+          //   ).src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAIwFOTdlx81nptYnLuokKk34LHuSPz1wk&q=${data.pickupCoordinates.lat},${data.pickupCoordinates.lng}`;
+          // }
+        } catch (error) {
+          console.error('Error fetching latest request:', error);
+        }
+      });
+    </script>
   </body>
 </html>

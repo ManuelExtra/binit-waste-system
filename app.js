@@ -10,6 +10,7 @@ const connectDB = require('./config/db');
 
 const apiRoutes = require('./routes/api');
 const Transaction = require('./models/Transaction');
+const Truck = require('./models/Truck');
 
 const PORT = 3000;
 
@@ -177,6 +178,18 @@ app.get('/admin/transactions', (req, res) => {
 app.get('/admin/trucks', (req, res) => {
   res.render('admin/trucks', {
     page: 'admin/trucks',
+    errors: {},
+    username: '',
+    password: '',
+  });
+});
+
+// Route for Admin Truck details page
+app.get('/admin/truck/:id', async (req, res) => {
+  const { id } = req.params;
+
+  res.render('admin/truck', {
+    page: 'admin/truck',
     errors: {},
     username: '',
     password: '',

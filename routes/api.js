@@ -8,6 +8,7 @@ const Transaction = require('../models/Transaction');
 const router = express.Router();
 const dotenv = require('dotenv');
 const { body, validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 
 dotenv.config();
 
@@ -71,14 +72,18 @@ router.post('/signin', async (req, res) => {
 });
 
 // Fetch Trucks (for users)
-router.get('/trucks', auth, async (req, res) => {
-  try {
-    const trucks = await Truck.find();
-    res.json(trucks);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+router.get(
+  '/trucks',
+  //  auth,
+  async (req, res) => {
+    try {
+      const trucks = await Truck.find();
+      res.json(trucks);
+    } catch (err) {
+      res.status(500).json({ message: 'Server error' });
+    }
   }
-});
+);
 
 // Schedule Pickup (for users)
 router.post('/schedule', auth, async (req, res) => {
@@ -115,18 +120,74 @@ router.post('/admin/trucks', auth, async (req, res) => {
   }
 });
 
-// Admin: Fetch Histories
-router.get('/admin/histories', auth, async (req, res) => {
-  if (req.user.role !== 'admin')
-    return res.status(403).json({ message: 'Access denied' });
+// Update a truck
+router.put(
+  '/admin/trucks/:id',
+  // auth,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const updateData = req.body;
 
+      const updatedTruck = await Truck.findByIdAndUpdate(id, updateData, {
+        new: true,
+      });
+
+      if (!updatedTruck) {
+        return res.status(404).json({ message: 'Truck not found' });
+      }
+
+      res.json(updatedTruck);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
+
+// Get a specific truck by ID
+router.get('/admin/trucks/:id', async (req, res) => {
   try {
-    const histories = await Transaction.find().populate('userId truckId');
-    res.json(histories);
+    const { id } = req.params;
+
+    // Validate that the ID is a valid ObjectId before querying
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid truck ID' });
+    }
+
+    const truck = await Truck.findById(id); // Corrected query
+
+    if (!truck) {
+      return res.status(404).json({ message: 'Truck not found' });
+    }
+
+    res.json(truck);
   } catch (err) {
+    console.error('Error fetching truck:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// Admin: Fetch Histories
+router.get(
+  '/admin/histories',
+  // auth,
+  async (req, res) => {
+    // if (req.user.role !== 'admin')
+    //   return res.status(403).json({ message: 'Access denied' });
+
+    try {
+      // Fetch only transactions with status "completed"
+      const histories = await Transaction.find({
+        status: 'completed',
+      }).populate('userId truckId');
+
+      res.json(histories);
+    } catch (err) {
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
 
 // Fetch total requests (trucks) and users
 router.get('/stats', async (req, res) => {
@@ -145,19 +206,35 @@ router.get('/stats', async (req, res) => {
       .populate('userId', '') // Populate all fields of userId
       .populate('truckId', ''); // Populate all fields of truckId
 
-    // Aggregate waste in and waste out by day of the week
-    const wasteStats = await Transaction.aggregate([
-      { $match: { status: 'completed' } }, // Consider only completed transactions
+    // Calculate total revenue from completed transactions
+    const totalRevenueResult = await Transaction.aggregate([
+      { $match: { status: 'completed' } },
+      { $group: { _id: null, totalRevenue: { $sum: '$amount' } } },
+    ]);
+    const totalRevenue =
+      totalRevenueResult.length > 0 ? totalRevenueResult[0].totalRevenue : 0;
+
+    // Aggregate total waste in from pending transactions
+    const wasteInStats = await Transaction.aggregate([
+      { $match: { status: 'pending' } }, // Consider only pending transactions for waste in
       {
         $group: {
-          _id: { dayOfWeek: { $dayOfWeek: '$createdAt' } }, // Group by day of the week
-          totalWasteIn: { $sum: '$wasteIn' }, // Sum of waste in
-          totalWasteOut: { $sum: '$wasteOut' }, // Sum of waste out
+          _id: { dayOfWeek: { $dayOfWeek: '$createdAt' } },
+          totalWasteIn: { $sum: '$wasteIn' },
         },
       },
     ]);
 
-    console.log(was);
+    // Aggregate total waste out from completed transactions
+    const wasteOutStats = await Transaction.aggregate([
+      { $match: { status: 'completed' } }, // Consider only completed transactions for waste out
+      {
+        $group: {
+          _id: { dayOfWeek: { $dayOfWeek: '$createdAt' } },
+          totalWasteOut: { $sum: '$wasteOut' },
+        },
+      },
+    ]);
 
     // Map MongoDB's dayOfWeek (1 = Sunday, 7 = Saturday) to readable names
     const weekDays = [
@@ -173,13 +250,17 @@ router.get('/stats', async (req, res) => {
     const formattedWasteStats = Array(7)
       .fill({ totalWasteIn: 0, totalWasteOut: 0 })
       .map((_, index) => {
-        const dayData = wasteStats.find(
+        const inData = wasteInStats.find(
           (item) => item._id.dayOfWeek === index + 1
         );
+        const outData = wasteOutStats.find(
+          (item) => item._id.dayOfWeek === index + 1
+        );
+
         return {
           day: weekDays[index],
-          totalWasteIn: dayData ? dayData.totalWasteIn : 0,
-          totalWasteOut: dayData ? dayData.totalWasteOut : 0,
+          totalWasteIn: inData ? inData.totalWasteIn : 0,
+          totalWasteOut: outData ? outData.totalWasteOut : 0,
         };
       });
 
@@ -188,7 +269,26 @@ router.get('/stats', async (req, res) => {
       totalUsers,
       recentTransactions,
       wasteStats: formattedWasteStats,
+      totalRevenue,
     });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Fetch latest request
+router.get('/latest-request', async (req, res) => {
+  try {
+    const latestRequest = await Transaction.findOne() // Get the latest request
+      .sort({ createdAt: -1 }) // Sort by newest first
+      .populate('userId') // Populate all user details
+      .populate('truckId'); // Populate all truck details
+
+    if (!latestRequest) {
+      return res.status(404).json({ message: 'No transactions found' });
+    }
+
+    res.json(latestRequest);
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }

@@ -216,8 +216,8 @@
               </div>
             </div>
             <div class="mt-8 flex flex-col gap-2">
-              <p class="font-bold">Your Income</p>
-              <p class="font-bold text-4xl">$1,300</p>
+              <p class="font-bold">Your Revenue</p>
+              <p class="font-bold text-4xl" id="totalRevenue">$0</p>
             </div>
           </div>
 
@@ -246,6 +246,7 @@
           if (response.ok) {
             // Extract waste stats
             const wasteStats = data.wasteStats || [];
+            const totalRevenue = data.totalRevenue;
 
             // Extract labels (days of the week) and dataset values
             const labels = wasteStats.map((item) => item.day);
@@ -275,6 +276,9 @@
               },
             });
 
+            document.getElementById(
+              'totalRevenue'
+            ).textContent = `$${+totalRevenue.toLocaleString()}`;
             // Update UI with fetched stats
             document.getElementById('totalUsers').textContent = data.totalUsers;
             document.getElementById('totalRequests').textContent =

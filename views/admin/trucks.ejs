@@ -25,12 +25,18 @@
           <div class="flex mb-5">
             <input
               type="text"
+              id="search"
               placeholder="Search..."
               class="p-2 border rounded-lg w-72"
             />
           </div>
           <div class="flex justify-between items-center mb-6">
             <h2 class="text-2xl font-bold">Trucks List</h2>
+            <a
+              href="/admin/trucks/create"
+              class="bg-blue-500 text-white px-3 py-1 rounded-md"
+              >Create</a
+            >
           </div>
 
           <div class="overflow-x-auto">
@@ -38,51 +44,65 @@
               <thead>
                 <tr class="bg-gray-200">
                   <th class="py-3 px-4 text-gray-600">Truck ID</th>
-                  <th class="py-3 px-4 text-gray-600">Driver</th>
-                  <th class="py-3 px-4 text-gray-600">Status</th>
+                  <th class="py-3 px-4 text-gray-600">Name</th>
+                  <th class="py-3 px-4 text-gray-600">Description</th>
                   <th class="py-3 px-4 text-gray-600">Location</th>
+                  <th class="py-3 px-4 text-gray-600">Coordinates</th>
                   <th class="py-3 px-4 text-gray-600">Action</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr class="border-t">
-                  <td class="py-3 px-4">EV-001</td>
-                  <td class="py-3 px-4">John Doe</td>
-                  <td class="py-3 px-4 text-green-500">Active</td>
-                  <td class="py-3 px-4">New York</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
-                  </td>
-                </tr>
-                <tr class="border-t">
-                  <td class="py-3 px-4">EV-002</td>
-                  <td class="py-3 px-4">Jane Smith</td>
-                  <td class="py-3 px-4 text-yellow-500">Pending</td>
-                  <td class="py-3 px-4">Los Angeles</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
-                  </td>
-                </tr>
-                <tr class="border-t">
-                  <td class="py-3 px-4">EV-003</td>
-                  <td class="py-3 px-4">Michael Brown</td>
-                  <td class="py-3 px-4 text-red-500">Inactive</td>
-                  <td class="py-3 px-4">Chicago</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
-                  </td>
-                </tr>
+              <tbody id="trucks-table-body">
+                <!-- Data will be populated here -->
               </tbody>
             </table>
           </div>
         </div>
       </main>
     </div>
+
+    <script>
+      async function fetchTrucks() {
+        try {
+          const response = await fetch('/api/trucks');
+          const trucks = await response.json();
+
+          const tableBody = document.getElementById('trucks-table-body');
+          tableBody.innerHTML = '';
+
+          trucks.forEach((truck) => {
+            const statusClass =
+              truck.status === 'completed'
+                ? 'text-green-500'
+                : truck.status === 'pending'
+                ? 'text-yellow-500'
+                : 'text-red-500';
+
+            const row = `
+              <tr class="border-t">
+                <td class="py-3 px-4">${truck._id}</td>
+                <td class="py-3 px-4">${truck.name || 'N/A'}</td>
+                <td class="py-3 px-4">${truck.wasteName || 'N/A'}</td>
+                <td class="py-3 px-4">${truck.location || 'Unknown'}</td>
+                <td class="py-3 px-4">${truck.coordinates?.lat}, ${
+              truck.coordinates?.lng
+            }</td>
+                <td class="py-3 px-4">
+                  <a href="/admin/truck/${
+                    truck._id
+                  }" class="bg-blue-500 text-white px-3 py-1 rounded-md">
+                    View
+                  </a>
+                </td>
+              </tr>
+            `;
+            tableBody.innerHTML += row;
+          });
+        } catch (error) {
+          console.error('Error fetching trucks:', error);
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', fetchTrucks);
+    </script>
   </body>
 </html>
