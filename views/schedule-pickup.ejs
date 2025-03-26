@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BinIt - Waste Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="min-h-screen bg-[#00c200] flex items-center justify-center">
+      <div class="bg-white p-10 shadow-md w-full max-w-lg">
+        <div class="mb-10">
+          <h1 class="text-4xl grotesk">Schedule Pickup</h1>
+          <p>Enter your details and proceed with your request</p>
+        </div>
+        <form action="/signup" method="POST" class="space-y-4">
+          <div>
+            <label class="block">PICK-UP LOCATION</label>
+            <input
+              type="text"
+              name="pickup_location"
+              placeholder="Enter your location"
+              class="w-full p-2 border rounded-2xl"
+              required
+            />
+          </div>
+          <div>
+            <label class="block">TYPE OF WASTE</label>
+            <select
+              type="text"
+              name="type_of_waste"
+              class="w-full p-2 border rounded-2xl"
+              required
+            >
+              <option value="BIODEGRADABLE WASTE">BIODEGRADABLE WASTE</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block">PICK_UP DATE</label>
+            <input
+              type="text"
+              name="pickup_date"
+              placeholder="Enter date"
+              class="w-full p-2 border rounded-2xl"
+              required
+            />
+          </div>
+
+          <div>
+            <label class="block">Province</label>
+            <select
+              name="province"
+              class="w-full p-2 border rounded-2xl"
+              required
+            >
+              <option value="BIODEGRADABLE WASTE">Select Province</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-[#00c200] hover:bg-green-600 text-white p-2 rounded-2xl"
+          >
+            Proceed
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>

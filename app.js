@@ -2,7 +2,24 @@ const users = [];
 const express = require('express');
 const app = express();
 const path = require('path');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
+const connectDB = require('./config/db');
+
+const apiRoutes = require('./routes/api');
+const Transaction = require('./models/Transaction');
+
 const PORT = 3000;
+
+dotenv.config();
+
+app.use(morgan());
+
+// Middleware
+app.use(cors());
+app.use(bodyParser.json());
 
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
@@ -13,6 +30,9 @@ app.use(express.static('public'));
 
 // Parse incoming request bodies
 app.use(express.urlencoded({ extended: true }));
+
+// Connect to MongoDB
+connectDB();
 
 // Route for the homepage
 app.get('/', (req, res) => {
@@ -65,6 +85,44 @@ app.get('/signup', (req, res) => {
   });
 });
 
+// Route for Schedule pickup page
+app.get('/schedule-pickup', (req, res) => {
+  res.render('schedule-pickup', {
+    page: 'schedule-pickup',
+    errors: {},
+    fullname: '',
+    email: '',
+    phone: '',
+    address: '',
+    province: '',
+    password: '',
+    confirmPassword: '',
+  });
+});
+
+// Route for Request complete page
+app.get('/request-complete', (req, res) => {
+  res.render('request-complete', {
+    page: 'request-complete',
+    errors: {},
+    fullname: '',
+    email: '',
+    phone: '',
+    address: '',
+    province: '',
+    password: '',
+    confirmPassword: '',
+  });
+});
+
+// Route for Track request page
+app.get('/track-request', (req, res) => {
+  res.render('track-request', {
+    page: 'track-request',
+    errors: {},
+  });
+});
+
 // Route for Admin Sign-In page
 app.get('/admin-signin', (req, res) => {
   res.render('admin-signin', {
@@ -76,7 +134,7 @@ app.get('/admin-signin', (req, res) => {
 });
 
 // Route for Admin Landing page
-app.get('/admin/landing', (req, res) => {
+app.get('/admin/landing', async (req, res) => {
   res.render('admin/index', {
     page: 'admin/landing',
     errors: {},
@@ -310,6 +368,9 @@ app.post('/trash-pickup', (req, res) => {
 app.get('/payment', (req, res) => {
   res.render('payment'); // Assuming you have a 'payment.ejs' template
 });
+
+// Routes
+app.use('/api', apiRoutes);
 
 // Start the server
 app.listen(PORT, () => {

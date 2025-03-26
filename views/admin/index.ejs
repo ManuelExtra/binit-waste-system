@@ -41,8 +41,12 @@
                 <div class="p-5 bg-[#79BF79] text-[#79BF79] rounded-lg">
                   Icon
                 </div>
+
                 <div class="flex flex-col justify-center">
-                  Customers <span class="block text-2xl font-bold">1,300</span>
+                  Customers
+                  <span class="block text-2xl font-bold" id="totalUsers"
+                    >0</span
+                  >
                 </div>
               </div>
 
@@ -51,7 +55,10 @@
                   Icon
                 </div>
                 <div class="flex flex-col justify-center">
-                  Employees <span class="block text-2xl font-bold">1,300</span>
+                  Employees
+                  <span class="block text-2xl font-bold" id="totalEmployees"
+                    >0</span
+                  >
                 </div>
               </div>
 
@@ -60,7 +67,10 @@
                   Icon
                 </div>
                 <div class="flex flex-col justify-center">
-                  Request <span class="block text-2xl font-bold">1,300</span>
+                  Request
+                  <span class="block text-2xl font-bold" id="totalRequests"
+                    >0</span
+                  >
                 </div>
               </div>
             </div>
@@ -72,8 +82,12 @@
                 <div class="flex justify-between mb-4">
                   <div>
                     <p>Request Number</p>
-                    <p class="font-bold mb-3">EV-2017002344</p>
-                    <p class="text-gray-400">Biodegradable material</p>
+                    <p class="font-bold mb-3" id="requestNumber">
+                      EV-2017002344
+                    </p>
+                    <p class="text-gray-400" id="wasteType">
+                      Biodegradable material
+                    </p>
                   </div>
                   <div>
                     <img src="/images/Recycling_Truck.png" class="w-20" />
@@ -92,12 +106,13 @@
                     </span>
                     <h3
                       class="flex items-center mb-1 text-lg font-semibold text-gray-900"
+                      id="pickupLocation"
                     >
                       2972 Westheimer
                     </h3>
-
                     <p
                       class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
+                      id="pickupAddress"
                     >
                       Rd. Santa Ana. Illinois 85486
                     </p>
@@ -108,12 +123,15 @@
                     >
                       <img src="/images/location.png" />
                     </span>
-                    <h3 class="mb-1 text-lg font-semibold text-gray-900">
+                    <h3
+                      class="mb-1 text-lg font-semibold text-gray-900"
+                      id="dropoffLocation"
+                    >
                       8502 Preston
                     </h3>
-
                     <p
                       class="text-base font-normal text-gray-500 dark:text-gray-400"
+                      id="dropoffAddress"
                     >
                       Rd. Inglewood. Maine 98380
                     </p>
@@ -127,8 +145,8 @@
                     <img src="/images/Ellipse47.png" class="h-20 w-20" />
                     <div>
                       <p class="text-[#B0B0B0]">Client</p>
-                      <p class="font-bold">Jenny Wilson</p>
-                      <p class="">Food State, LTD</p>
+                      <p class="font-bold" id="clientName">Jenny Wilson</p>
+                      <p id="clientCompany">Food State, LTD</p>
                     </div>
                   </div>
                   <div class="flex gap-4 items-center">
@@ -206,121 +224,145 @@
           <div class="mt-4">
             <div class="flex justify-between">
               <p>Last Transaction</p>
-              <a href="" class="text-[#00c200] font-bold">See all</a>
+              <a href="/transactions" class="text-[#00c200] font-bold"
+                >See all</a
+              >
             </div>
-            <div class="flex flex-col mt-5 gap-6">
-              <div class="flex justify-between">
-                <div class="flex gap-2">
-                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
-                  <div>
-                    <p class="font-bold text-[#535353]">Deposit waste</p>
-                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end">
-                  <p class="font-bold text-[#535353]">$20</p>
-                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
-                </div>
-              </div>
-              <div class="flex justify-between">
-                <div class="flex gap-2">
-                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
-                  <div>
-                    <p class="font-bold text-[#535353]">Deposit waste</p>
-                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end">
-                  <p class="font-bold text-[#535353]">$20</p>
-                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
-                </div>
-              </div>
-              <div class="flex justify-between">
-                <div class="flex gap-2">
-                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
-                  <div>
-                    <p class="font-bold text-[#535353]">Deposit waste</p>
-                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end">
-                  <p class="font-bold text-[#535353]">$20</p>
-                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
-                </div>
-              </div>
-              <div class="flex justify-between">
-                <div class="flex gap-2">
-                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
-                  <div>
-                    <p class="font-bold text-[#535353]">Deposit waste</p>
-                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end">
-                  <p class="font-bold text-[#535353]">$20</p>
-                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
-                </div>
-              </div>
-              <div class="flex justify-between">
-                <div class="flex gap-2">
-                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
-                  <div>
-                    <p class="font-bold text-[#535353]">Deposit waste</p>
-                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end">
-                  <p class="font-bold text-[#535353]">$20</p>
-                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
-                </div>
-              </div>
-              <div class="flex justify-between">
-                <div class="flex gap-2">
-                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
-                  <div>
-                    <p class="font-bold text-[#535353]">Deposit waste</p>
-                    <p class="text-sm text-[#B0B0B0]">Paper Factory</p>
-                  </div>
-                </div>
-                <div class="flex flex-col items-end">
-                  <p class="font-bold text-[#535353]">$20</p>
-                  <p class="text-sm text-[#B0B0B0]">13 Jan 2025</p>
-                </div>
-              </div>
+            <div class="flex flex-col mt-5 gap-6" id="transactionsList">
+              <p class="text-sm text-[#B0B0B0]" id="noTransactions">
+                Loading transactions...
+              </p>
             </div>
           </div>
         </div>
       </main>
     </div>
     <script>
-      const ctx = document.getElementById('wasteChart').getContext('2d');
-      const wasteChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday',
-          ],
-          datasets: [
-            {
-              label: 'Waste In',
-              data: [200, 400, 600, 800, 1000, 700, 500],
-              borderColor: 'rgb(255, 99, 132)',
-              tension: 0.4,
-            },
-            {
-              label: 'Waste Out',
-              data: [300, 500, 400, 600, 800, 1000, 900],
-              borderColor: 'rgb(75, 192, 192)',
-              tension: 0.4,
-            },
-          ],
-        },
+      document.addEventListener('DOMContentLoaded', async () => {
+        try {
+          const response = await fetch('/api/stats');
+          const data = await response.json();
+
+          if (response.ok) {
+            // Extract waste stats
+            const wasteStats = data.wasteStats || [];
+
+            // Extract labels (days of the week) and dataset values
+            const labels = wasteStats.map((item) => item.day);
+            const wasteInData = wasteStats.map((item) => item.totalWasteIn);
+            const wasteOutData = wasteStats.map((item) => item.totalWasteOut);
+
+            // Update Chart
+            const ctx = document.getElementById('wasteChart').getContext('2d');
+            const wasteChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: labels,
+                datasets: [
+                  {
+                    label: 'Waste In',
+                    data: wasteInData,
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.4,
+                  },
+                  {
+                    label: 'Waste Out',
+                    data: wasteOutData,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.4,
+                  },
+                ],
+              },
+            });
+
+            // Update UI with fetched stats
+            document.getElementById('totalUsers').textContent = data.totalUsers;
+            document.getElementById('totalRequests').textContent =
+              data.totalRequests;
+            document.getElementById('totalEmployees').textContent = 0;
+
+            const transactionsList =
+              document.getElementById('transactionsList');
+            transactionsList.innerHTML = ''; // Clear loading text
+
+            if (data.recentTransactions && data.recentTransactions.length > 0) {
+              data.recentTransactions.forEach((transaction) => {
+                const transactionHTML = `
+              <div class="flex justify-between">
+                <div class="flex gap-2">
+                  <img src="/images/Ellipse800.png" class="w-10 h-10" />
+                  <div>
+                    <p class="font-bold text-[#535353]">
+                      ${
+                        transaction.status === 'completed'
+                          ? 'Completed Transaction'
+                          : 'Pending Transaction'
+                      }
+                    </p>
+                    <p class="text-sm text-[#B0B0B0]">
+                      ${
+                        transaction.truckId
+                          ? transaction.truckId.name
+                          : 'Unknown Truck'
+                      }
+                    </p>
+                  </div>
+                </div>
+                <div class="flex flex-col items-end">
+                  <p class="font-bold text-[#535353]">$${transaction.amount}</p>
+                  <p class="text-sm text-[#B0B0B0]">${new Date(
+                    transaction.createdAt
+                  ).toLocaleDateString()}</p>
+                </div>
+              </div>
+            `;
+                transactionsList.innerHTML += transactionHTML;
+              });
+
+              // Get the most recent transaction
+              const recentTransaction = data.recentTransactions?.[0];
+
+              if (recentTransaction) {
+                document.getElementById('requestNumber').textContent =
+                  recentTransaction._id || 'N/A';
+                document.getElementById('wasteType').textContent =
+                  recentTransaction.truckId?.wasteName || 'Unknown Waste Type';
+                document.getElementById('pickupLocation').textContent =
+                  recentTransaction.pickupLocation || 'Truck Location';
+                document.getElementById('pickupAddress').textContent =
+                  recentTransaction.truckId?.location || 'No Address Available';
+                document.getElementById('dropoffLocation').textContent =
+                  recentTransaction.dropoffLocation || 'User Location';
+                document.getElementById('dropoffAddress').textContent =
+                  recentTransaction.userId?.location || 'No Address Available';
+                document.getElementById('clientName').textContent =
+                  recentTransaction.userId?.name || 'Unknown User';
+                document.getElementById('clientCompany').textContent =
+                  recentTransaction.userId?.email || 'No Company Info';
+              } else {
+                // Handle case where no transactions exist
+                document.getElementById('requestNumber').textContent = 'N/A';
+                document.getElementById('wasteType').textContent =
+                  'No Recent Transactions';
+                document.getElementById('pickupLocation').textContent = '-';
+                document.getElementById('pickupAddress').textContent = '-';
+                document.getElementById('dropoffLocation').textContent = '-';
+                document.getElementById('dropoffAddress').textContent = '-';
+                document.getElementById('clientName').textContent = '-';
+                document.getElementById('clientCompany').textContent = '-';
+              }
+            } else {
+              transactionsList.innerHTML = `<p class="text-sm text-[#B0B0B0]">No recent transactions available</p>`;
+            }
+          } else {
+            console.error('Failed to fetch stats:', data.message);
+          }
+        } catch (error) {
+          console.error('Error fetching stats:', error);
+          document.getElementById(
+            'transactionsList'
+          ).innerHTML = `<p class="text-sm text-[#B0B0B0]">Error loading transactions</p>`;
+        }
       });
     </script>
   </body>

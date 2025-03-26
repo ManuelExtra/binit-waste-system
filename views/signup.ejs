@@ -19,12 +19,13 @@
     <section class="min-h-screen bg-[#00c200] flex items-center justify-center">
       <div class="bg-white p-10 shadow-md w-full max-w-lg">
         <h1 class="text-4xl mb-10 grotesk">Get Started Now</h1>
-        <form action="/signup" method="POST" class="space-y-4">
+        <form id="signupForm" method="POST" class="space-y-4">
           <div>
             <label class="block">Name</label>
             <input
               type="text"
               name="name"
+              id="name"
               placeholder="Enter your name"
               class="w-full p-2 border rounded-2xl"
               required
@@ -36,6 +37,7 @@
             <input
               type="email"
               name="email"
+              id="email"
               placeholder="Enter your email"
               class="w-full p-2 border rounded-2xl"
               required
@@ -47,6 +49,7 @@
             <input
               type="password"
               name="password"
+              id="password"
               placeholder="Enter your password"
               class="w-full p-2 border rounded-2xl"
               required
@@ -61,6 +64,8 @@
           </button>
         </form>
 
+        <div id="message" class="mt-4 text-center hidden"></div>
+
         <p class="text-center mt-4">
           Have an account? <a href="/signin" class="text-blue-500">Sign In</a>
         </p>
@@ -69,4 +74,52 @@
 
     <%- include('partials/footer') %>
   </body>
+  <script>
+    document
+      .getElementById('signupForm')
+      .addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        const messageDiv = document.getElementById('message');
+        messageDiv.classList.add('hidden');
+
+        try {
+          const response = await fetch('/api/signup', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              name,
+              email,
+              password,
+              role: 'user', // Default role
+              location: '', // Default location or get from another field
+            }),
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            // Success - store token and redirect
+            localStorage.setItem('token', data.token);
+            window.location.href = '/schedule-pickup'; // Redirect to dashboard
+          } else {
+            // Show error message
+            messageDiv.textContent = data.message || 'Signup failed';
+            messageDiv.classList.remove('hidden');
+            messageDiv.classList.add('text-red-500');
+          }
+        } catch (error) {
+          messageDiv.textContent = 'Network error. Please try again.';
+          messageDiv.classList.remove('hidden');
+          messageDiv.classList.add('text-red-500');
+          console.error('Error:', error);
+        }
+      });
+  </script>
 </html>

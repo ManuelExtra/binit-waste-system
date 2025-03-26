@@ -169,3 +169,15 @@ body {
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+#message {
+  transition: all 0.3s ease;
+}
+
+#message.success {
+  color: #00c200;
+}
+
+#message.error {
+  color: #ff3333;
+}

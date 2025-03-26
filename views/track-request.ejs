@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BinIt - Waste Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <%- include('partials/header') %>
+
+    <section class="bg-[#00c200]">
+      <div
+        class="min-h-screen max-w-6xl m-auto flex flex-col lg:flex-row items-center justify-center gap-4 pt-10 lg:pt-0"
+      >
+        <div class="bg-white p-8 rounded-lg shadow-md col-span-2">
+          <div class="flex justify-between mb-4">
+            <div>
+              <p>Request Number</p>
+              <p class="font-bold mb-3">EV-2017002344</p>
+              <p class="text-gray-400">Biodegradable material</p>
+            </div>
+            <div>
+              <img src="/images/Recycling_Truck.png" class="w-20" />
+            </div>
+          </div>
+          <hr />
+
+          <ol
+            class="relative border-s border-[#E3E3E3] dark:border-[#E3E3E3] mt-6"
+          >
+            <li class="mb-10 ms-6">
+              <span
+                class="absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-white dark:ring-[#E8F9EE] dark:bg-blue-900"
+              >
+                <img src="/images/Ellipse45.png" />
+              </span>
+              <h3
+                class="flex items-center mb-1 text-lg font-semibold text-gray-900"
+              >
+                2972 Westheimer
+              </h3>
+
+              <p
+                class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
+              >
+                Rd. Santa Ana. Illinois 85486
+              </p>
+            </li>
+            <li class="mb-10 ms-6">
+              <span
+                class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-[#E8F9EE] dark:bg-blue-900"
+              >
+                <img src="/images/location.png" />
+              </span>
+              <h3 class="mb-1 text-lg font-semibold text-gray-900">
+                8502 Preston
+              </h3>
+
+              <p class="text-base font-normal text-gray-500 dark:text-gray-400">
+                Rd. Inglewood. Maine 98380
+              </p>
+            </li>
+          </ol>
+
+          <hr />
+
+          <div class="flex justify-between my-4">
+            <div class="flex gap-2 items-center">
+              <img src="/images/Ellipse47.png" class="h-20 w-20" />
+              <div>
+                <p class="text-[#B0B0B0]">Client</p>
+                <p class="font-bold">Jenny Wilson</p>
+                <p class="">Food State, LTD</p>
+              </div>
+            </div>
+            <div class="flex gap-4 items-center">
+              <button class="bg-[#F7F5FF] p-3 rounded-xl">
+                <img src="/images/call.png" class="w-8 h-8" />
+              </button>
+              <button class="bg-[#F7F5FF] p-3 rounded-xl">
+                <img src="/images/message-text.png" class="w-8 h-8" />
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col flex-[2] h-[100vh] lg:h-[70vh] w-full">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m26!1m12!1m3!1d146814.12083336012!2d3.255283462330874!3d6.586371334957074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m11!3e6!4m3!3m2!1d6.6743751!2d3.3175743!4m5!1s0x103b8c1a0034df05%3A0x24bef921f4afb7f6!2sIlorin%20Street%2C%20Lagos!3m2!1d6.4982482!2d3.3489755999999997!5e1!3m2!1sen!2sng!4v1742509754952!5m2!1sen!2sng"
+            class="w-full h-[50vh] lg:h-full"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <%- include('partials/footer') %>
+  </body>
+</html>
