@@ -74,7 +74,7 @@ router.post('/signin', async (req, res) => {
 // Fetch Trucks (for users)
 router.get(
   '/trucks',
-  //  auth,
+  // auth,
   async (req, res) => {
     try {
       const trucks = await Truck.find();
@@ -86,64 +86,103 @@ router.get(
 );
 
 // Schedule Pickup (for users)
-router.post('/schedule', auth, async (req, res) => {
-  console.log(req.user);
-
-  const { truckId, amount } = req.body;
-  try {
-    const transaction = new Transaction({
-      userId: req.user.id,
-      truckId,
-      amount,
-    });
-    await transaction.save();
-    res.status(201).json(transaction);
-  } catch (err) {
-    console.log(err);
-
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// Admin: Manage Trucks
-router.post('/admin/trucks', auth, async (req, res) => {
-  if (req.user.role !== 'admin')
-    return res.status(403).json({ message: 'Access denied' });
-
-  const { name, wasteName, price, location } = req.body;
-  try {
-    const truck = new Truck({ name, wasteName, price, location });
-    await truck.save();
-    res.status(201).json(truck);
-  } catch (err) {
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-// Update a truck
-router.put(
-  '/admin/trucks/:id',
+router.post(
+  '/schedule',
   // auth,
   async (req, res) => {
+    console.log(req.user);
+
+    const { truckId, amount } = req.body;
     try {
-      const { id } = req.params;
-      const updateData = req.body;
-
-      const updatedTruck = await Truck.findByIdAndUpdate(id, updateData, {
-        new: true,
+      const transaction = new Transaction({
+        userId: req.user.id,
+        truckId,
+        amount,
       });
-
-      if (!updatedTruck) {
-        return res.status(404).json({ message: 'Truck not found' });
-      }
-
-      res.json(updatedTruck);
+      await transaction.save();
+      res.status(201).json(transaction);
     } catch (err) {
-      console.error(err);
+      console.log(err);
+
       res.status(500).json({ message: 'Server error' });
     }
   }
 );
+
+// Admin: Manage Trucks
+router.post(
+  '/admin/trucks',
+  // auth,
+  async (req, res) => {
+    // if (req.user.role !== 'admin')
+    //   return res.status(403).json({ message: 'Access denied' });
+
+    const { name, wasteName, price, location, coordinates } = req.body;
+    try {
+      const truck = new Truck({
+        name,
+        wasteName,
+        price,
+        location,
+        coordinates,
+      });
+      await truck.save();
+      res.status(201).json(truck);
+    } catch (err) {
+      res.status(500).json({ message: 'Server error' });
+    }
+  }
+);
+
+// Update a truck
+router.put('/admin/trucks/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updateData = req.body;
+
+    const updatedTruck = await Truck.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
+
+    if (!updatedTruck) {
+      return res.status(404).json({ message: 'Truck not found' });
+    }
+
+    res.json(updatedTruck);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Delete a truck
+router.delete('/admin/trucks/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Check if the truck is associated with a transaction
+    const existingTransaction = await Transaction.findOne({ truckId: id });
+
+    if (existingTransaction) {
+      return res.status(400).json({
+        message:
+          'Cannot delete truck. It is associated with an existing transaction.',
+      });
+    }
+
+    // Delete the truck if no transaction is linked
+    const deletedTruck = await Truck.findByIdAndDelete(id);
+
+    if (!deletedTruck) {
+      return res.status(404).json({ message: 'Truck not found.' });
+    }
+
+    res.json({ message: 'Truck deleted successfully.' });
+  } catch (error) {
+    console.error('Error deleting truck:', error);
+    res.status(500).json({ message: 'Server error. Please try again later.' });
+  }
+});
 
 // Get a specific truck by ID
 router.get('/admin/trucks/:id', async (req, res) => {
@@ -169,28 +208,24 @@ router.get('/admin/trucks/:id', async (req, res) => {
 });
 
 // Admin: Fetch Histories
-router.get(
-  '/admin/histories',
-  // auth,
-  async (req, res) => {
-    // if (req.user.role !== 'admin')
-    //   return res.status(403).json({ message: 'Access denied' });
+router.get('/admin/histories', auth, async (req, res) => {
+  if (req.user.role !== 'admin')
+    return res.status(403).json({ message: 'Access denied' });
 
-    try {
-      // Fetch only transactions with status "completed"
-      const histories = await Transaction.find({
-        status: 'completed',
-      }).populate('userId truckId');
+  try {
+    // Fetch only transactions with status "completed"
+    const histories = await Transaction.find({
+      status: 'completed',
+    }).populate('userId truckId');
 
-      res.json(histories);
-    } catch (err) {
-      res.status(500).json({ message: 'Server error' });
-    }
+    res.json(histories);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
-);
+});
 
 // Fetch total requests (trucks) and users
-router.get('/stats', async (req, res) => {
+router.get('/stats', auth, async (req, res) => {
   try {
     const totalRequests = await Truck.countDocuments();
     const totalUsers = await User.countDocuments();
@@ -277,7 +312,7 @@ router.get('/stats', async (req, res) => {
 });
 
 // Fetch latest request
-router.get('/latest-request', async (req, res) => {
+router.get('/latest-request', auth, async (req, res) => {
   try {
     const latestRequest = await Transaction.findOne() // Get the latest request
       .sort({ createdAt: -1 }) // Sort by newest first
@@ -293,5 +328,117 @@ router.get('/latest-request', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+// Fetch transactions with pagination & filtering
+router.get('/admin/transactions', auth, async (req, res) => {
+  try {
+    let { page = 1, limit = 10, status } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const query = status ? { status } : {}; // Optional filtering by status
+
+    const transactions = await Transaction.find(query)
+      .populate({
+        path: 'truckId',
+      })
+      .sort({ createdAt: -1 }) // Latest transactions first
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const totalTransactions = await Transaction.countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      totalPages: Math.ceil(totalTransactions / limit),
+      currentPage: page,
+      transactions,
+    });
+  } catch (error) {
+    console.error('Error fetching transactions:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// Update transaction status to "Completed"
+router.put('/admin/transactions/:id/complete', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find and update the transaction
+    const updatedTransaction = await Transaction.findByIdAndUpdate(
+      id,
+      { status: 'completed' },
+      { new: true } // Return updated document
+    );
+
+    if (!updatedTransaction) {
+      return res
+        .status(404)
+        .json({ success: false, message: 'Transaction not found' });
+    }
+
+    res.json({
+      success: true,
+      message: 'Transaction marked as completed',
+      transaction: updatedTransaction,
+    });
+  } catch (error) {
+    console.error('Error updating transaction status:', error);
+    res.status(500).json({ success: false, message: 'Server error' });
+  }
+});
+
+// Update user details
+router.put(
+  '/update-profile',
+  auth,
+  [
+    body('username').optional().trim().isLength({ min: 3 }),
+    body('email').optional().isEmail().normalizeEmail(),
+    body('password').optional().isLength({ min: 6 }),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ success: false, errors: errors.array() });
+    }
+
+    const { username, email, password } = req.body;
+    const userId = req.user.id; // Assuming authMiddleware sets req.user
+
+    try {
+      let updatedData = {};
+      if (username) updatedData.username = username;
+      if (email) updatedData.email = email;
+      if (password) {
+        const salt = await bcrypt.genSalt(10);
+        updatedData.password = await bcrypt.hash(password, salt);
+      }
+
+      const updatedUser = await User.findByIdAndUpdate(userId, updatedData, {
+        new: true,
+        select: '-password',
+      });
+
+      if (!updatedUser) {
+        return res
+          .status(404)
+          .json({ success: false, message: 'User not found' });
+      }
+
+      res.json({
+        success: true,
+        message: 'Profile updated successfully',
+        user: updatedUser,
+      });
+    } catch (error) {
+      console.error('Update error:', error);
+      res
+        .status(500)
+        .json({ success: false, message: 'Internal Server Error' });
+    }
+  }
+);
 
 module.exports = router;

@@ -240,7 +240,12 @@
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
         try {
-          const response = await fetch('/api/stats');
+          const response = await fetch('/api/stats', {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
           const data = await response.json();
 
           if (response.ok) {

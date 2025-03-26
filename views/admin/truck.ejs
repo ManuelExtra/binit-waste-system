@@ -30,6 +30,15 @@
           </div>
 
           <div class="mb-4">
+            <label class="block text-gray-700">Price</label>
+            <input
+              type="number"
+              id="truck-price"
+              class="w-full p-2 border rounded-lg"
+            />
+          </div>
+
+          <div class="mb-4">
             <label class="block text-gray-700">Description</label>
             <input
               type="text"
@@ -65,12 +74,21 @@
             />
           </div>
 
-          <button
-            type="submit"
-            class="bg-blue-500 text-white px-4 py-2 rounded-md"
-          >
-            Save Changes
-          </button>
+          <div class="flex space-x-4">
+            <button
+              type="submit"
+              class="bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              id="delete-truck"
+              class="bg-red-500 text-white px-4 py-2 rounded-md"
+            >
+              Delete Truck
+            </button>
+          </div>
         </form>
       </main>
     </div>
@@ -81,10 +99,16 @@
         document.getElementById('truck-id').value = truckId;
 
         try {
-          const response = await fetch(`/api/admin/trucks/${truckId}`);
+          const response = await fetch(`/api/admin/trucks/${truckId}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
           const truck = await response.json();
 
           document.getElementById('truck-name').value = truck.name;
+          document.getElementById('truck-price').value = truck.price;
           document.getElementById('truck-description').value = truck.wasteName;
           document.getElementById('truck-location').value = truck.location;
           document.getElementById('truck-lng').value = truck.coordinates.lng;
@@ -104,6 +128,7 @@
           const truckId = document.getElementById('truck-id').value;
           const updatedTruck = {
             name: document.getElementById('truck-name').value,
+            price: document.getElementById('truck-price').value,
             wasteName: document.getElementById('truck-description').value,
             location: document.getElementById('truck-location').value,
             coordinates: {
@@ -115,7 +140,10 @@
           try {
             const response = await fetch(`/api/admin/trucks/${truckId}`, {
               method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
               body: JSON.stringify(updatedTruck),
             });
 
@@ -127,6 +155,32 @@
             }
           } catch (error) {
             console.error('Error updating truck:', error);
+          }
+        });
+
+      document
+        .getElementById('delete-truck')
+        .addEventListener('click', async function () {
+          const truckId = document.getElementById('truck-id').value;
+          if (!confirm('Are you sure you want to delete this truck?')) return;
+
+          try {
+            const response = await fetch(`/api/admin/trucks/${truckId}`, {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+            });
+
+            if (response.ok) {
+              alert('Truck deleted successfully!');
+              window.location.href = '/admin/trucks';
+            } else {
+              alert('Error deleting truck');
+            }
+          } catch (error) {
+            console.error('Error deleting truck:', error);
           }
         });
     </script>

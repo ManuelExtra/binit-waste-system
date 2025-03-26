@@ -38,44 +38,17 @@
               <thead>
                 <tr class="bg-gray-200">
                   <th class="py-3 px-4 text-gray-600">Transaction ID</th>
-                  <th class="py-3 px-4 text-gray-600">Date</th>
+                  <th class="py-3 px-4 text-gray-600">Name</th>
                   <th class="py-3 px-4 text-gray-600">Amount</th>
                   <th class="py-3 px-4 text-gray-600">Status</th>
+                  <th class="py-3 px-4 text-gray-600">Date</th>
                   <th class="py-3 px-4 text-gray-600">Action</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr class="border-t">
-                  <td class="py-3 px-4">TXN-001</td>
-                  <td class="py-3 px-4">2025-03-15</td>
-                  <td class="py-3 px-4">$1,200</td>
-                  <td class="py-3 px-4 text-green-500">Completed</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
-                  </td>
-                </tr>
-                <tr class="border-t">
-                  <td class="py-3 px-4">TXN-002</td>
-                  <td class="py-3 px-4">2025-03-16</td>
-                  <td class="py-3 px-4">$850</td>
-                  <td class="py-3 px-4 text-yellow-500">Pending</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
-                  </td>
-                </tr>
-                <tr class="border-t">
-                  <td class="py-3 px-4">TXN-003</td>
-                  <td class="py-3 px-4">2025-03-17</td>
-                  <td class="py-3 px-4">$450</td>
-                  <td class="py-3 px-4 text-red-500">Failed</td>
-                  <td class="py-3 px-4">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded-md">
-                      View
-                    </button>
+              <tbody id="transaction-table-body">
+                <tr id="loading-row">
+                  <td colspan="5" class="text-center py-4 text-gray-500">
+                    Loading...
                   </td>
                 </tr>
               </tbody>
@@ -84,5 +57,111 @@
         </div>
       </main>
     </div>
+
+    <script>
+      async function fetchTransactions() {
+        try {
+          const response = await fetch('/api/admin/transactions', {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+          const data = await response.json();
+
+          const tableBody = document.getElementById('transaction-table-body');
+          tableBody.innerHTML = ''; // Clear existing rows
+
+          if (data.success && data.transactions.length > 0) {
+            data.transactions.forEach((transaction) => {
+              const row = document.createElement('tr');
+              row.classList.add('border-t');
+
+              row.innerHTML = `
+                <td class="py-3 px-4">${transaction._id}</td>
+                <td class="py-3 px-4">${transaction.truckId.name}</td>
+                <td class="py-3 px-4">$${transaction.amount.toFixed(2)}</td>
+                <td class="py-3 px-4 ${getStatusColor(transaction.status)}">
+                  ${transaction.status}
+                </td>
+                <td class="py-3 px-4">${new Date(
+                  transaction.createdAt
+                ).toLocaleDateString()}</td>
+                <td class='py-3 px-4 flex gap-2'>
+                      <button
+                        class='bg-blue-500 text-white px-3 py-1 rounded-md complete-btn'
+                        data-id='${transaction._id}'
+                        disabled='${!(transaction.status === 'completed')}'
+                      >
+                        ${
+                          transaction.status === 'completed'
+                            ? 'Marked'
+                            : 'Mark as completed'
+                        }
+                      </button>
+                    </td>
+                
+              `;
+
+              tableBody.appendChild(row);
+            });
+          } else {
+            tableBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-gray-500">No transactions found</td></tr>`;
+          }
+        } catch (error) {
+          console.error('Error fetching transactions:', error);
+          document.getElementById('transaction-table-body').innerHTML = `
+            <tr><td colspan="6" class="text-center py-4 text-red-500">Failed to load transactions</td></tr>`;
+        }
+      }
+
+      function getStatusColor(status) {
+        switch (status.toLowerCase()) {
+          case 'completed':
+            return 'text-green-500';
+          case 'pending':
+            return 'text-yellow-500';
+          case 'failed':
+            return 'text-red-500';
+          default:
+            return 'text-gray-500';
+        }
+      }
+
+      // Event Delegation for buttons
+      document.addEventListener('click', async (event) => {
+        const target = event.target;
+
+        // Mark as completed
+        if (target.classList.contains('complete-btn')) {
+          const transactionId = target.getAttribute('data-id');
+
+          try {
+            const response = await fetch(
+              `/api/admin/transactions/${transactionId}/complete`,
+              {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+              }
+            );
+
+            const data = await response.json();
+            if (data.success) {
+              alert('Transaction marked as completed!');
+              target
+                .closest('tr')
+                .querySelector('td:nth-child(4)').textContent = 'Completed';
+              target.remove(); // Remove button after completion
+            } else {
+              alert('Failed to update transaction');
+            }
+          } catch (error) {
+            console.error('Error completing transaction:', error);
+          }
+        }
+      });
+
+      document.addEventListener('DOMContentLoaded', fetchTransactions);
+    </script>
   </body>
 </html>

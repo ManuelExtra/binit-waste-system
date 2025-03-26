@@ -45,6 +45,7 @@
                 <tr class="bg-gray-200">
                   <th class="py-3 px-4 text-gray-600">Truck ID</th>
                   <th class="py-3 px-4 text-gray-600">Name</th>
+                  <th class="py-3 px-4 text-gray-600">Price</th>
                   <th class="py-3 px-4 text-gray-600">Description</th>
                   <th class="py-3 px-4 text-gray-600">Location</th>
                   <th class="py-3 px-4 text-gray-600">Coordinates</th>
@@ -63,7 +64,14 @@
     <script>
       async function fetchTrucks() {
         try {
-          const response = await fetch('/api/trucks');
+          const response = await fetch('/api/trucks', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authentication: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+
           const trucks = await response.json();
 
           const tableBody = document.getElementById('trucks-table-body');
@@ -81,6 +89,9 @@
               <tr class="border-t">
                 <td class="py-3 px-4">${truck._id}</td>
                 <td class="py-3 px-4">${truck.name || 'N/A'}</td>
+                <td class="py-3 px-4">$${
+                  truck.price.toLocaleString() || 'N/A'
+                }</td>
                 <td class="py-3 px-4">${truck.wasteName || 'N/A'}</td>
                 <td class="py-3 px-4">${truck.location || 'Unknown'}</td>
                 <td class="py-3 px-4">${truck.coordinates?.lat}, ${

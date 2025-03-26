@@ -27,13 +27,15 @@
           </div>
 
           <div class="bg-white p-6 rounded-lg shadow-md">
-            <form class="space-y-4">
+            <form id="settings-form" class="space-y-4">
               <div>
                 <label class="block text-gray-600">Username</label>
                 <input
                   type="text"
+                  id="username"
                   placeholder="Enter username"
                   class="w-full p-2 border rounded-lg"
+                  required
                 />
               </div>
 
@@ -41,34 +43,34 @@
                 <label class="block text-gray-600">Email</label>
                 <input
                   type="email"
+                  id="email"
                   placeholder="Enter email"
                   class="w-full p-2 border rounded-lg"
+                  required
                 />
               </div>
 
               <div>
-                <label class="block text-gray-600">Password</label>
+                <label class="block text-gray-600">Password (optional)</label>
                 <input
                   type="password"
+                  id="password"
                   placeholder="Enter new password"
                   class="w-full p-2 border rounded-lg"
                 />
               </div>
 
-              <div>
-                <label class="block text-gray-600">Notification Settings</label>
-                <div class="flex items-center gap-3">
-                  <input type="checkbox" id="email-notify" />
-                  <label for="email-notify">Email Notifications</label>
-                </div>
-                <div class="flex items-center gap-3">
-                  <input type="checkbox" id="sms-notify" />
-                  <label for="sms-notify">SMS Notifications</label>
-                </div>
-              </div>
+              <div class="text-center text-red-500" id="error-message"></div>
+              <div
+                class="text-center text-green-500"
+                id="success-message"
+              ></div>
 
               <div class="flex justify-end">
-                <button class="bg-green-500 text-white px-4 py-2 rounded-md">
+                <button
+                  type="submit"
+                  class="bg-green-500 text-white px-4 py-2 rounded-md"
+                >
                   Save Changes
                 </button>
               </div>
@@ -77,5 +79,43 @@
         </div>
       </main>
     </div>
+
+    <script>
+      document
+        .getElementById('settings-form')
+        .addEventListener('submit', async function (event) {
+          event.preventDefault();
+
+          const username = document.getElementById('username').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const password = document.getElementById('password').value.trim();
+          const errorMessage = document.getElementById('error-message');
+          const successMessage = document.getElementById('success-message');
+
+          errorMessage.textContent = '';
+          successMessage.textContent = '';
+
+          try {
+            const response = await fetch('/api/update-profile', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              },
+              body: JSON.stringify({ username, email, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              throw new Error(data.message || 'Something went wrong');
+            }
+
+            successMessage.textContent = 'Profile updated successfully!';
+          } catch (error) {
+            errorMessage.textContent = error.message;
+          }
+        });
+    </script>
   </body>
 </html>

@@ -13,7 +13,7 @@
     <script
       async
       defer
-      src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAIwFOTdlx81nptYnLuokKk34LHuSPz1wk&callback=initMap"
     ></script>
   </head>
   <body class="bg-gray-100 font-sans">
@@ -124,7 +124,12 @@
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
         try {
-          const response = await fetch('/api/latest-request');
+          const response = await fetch('/api/latest-request', {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
           const data = await response.json();
 
           if (!data || !data._id) {
@@ -132,21 +137,6 @@
               '<p>No ongoing collections.</p>';
             return;
           }
-
-          //       // Extract coordinates
-          //       const truckLocation = `${data.truckId.coordinates.lat},${data.truckId.coordinates.lng}`;
-          //       const usercoordinates = `${data.userId.coordinates.lat},${data.userId.coordinates.lng}`;
-
-          //       // Update the Google Maps iframe dynamically
-          //       document.getElementById(
-          //         'mapFrame'
-          //       ).src = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyAIwFOTdlx81nptYnLuokKk34LHuSPz1wk&origin=${truckLocation}&destination=${usercoordinates}&mode=driving`;
-
-          //       document.getElementById("mapFrame");
-          // mapFrame.src = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyAIwFOTdlx81nptYnLuokKk34LHuSPz1wk
-          //   &origin=${truckLocation}
-          //   &destination=${usercoordinates}
-          //   &mode=driving`;
 
           const truckLocation = {
             lat: data.truckId.coordinates.lat,
@@ -185,6 +175,15 @@
           });
           directionsRenderer.setMap(map);
 
+          // Create floating card for distance & time
+          const infoCard = document.createElement('div');
+          infoCard.setAttribute(
+            'style',
+            'position:absolute; top:70px; left:56%; transform:translateX(-50%); background:white; padding:10px 20px; border-radius:8px; box-shadow:0px 2px 6px rgba(0,0,0,0.2); font-size:16px; font-weight:bold; z-index:999;'
+          );
+          infoCard.innerHTML = 'Calculating route...';
+          document.body.appendChild(infoCard);
+
           // Request the route from truck to user
           directionsService.route(
             {
@@ -201,8 +200,17 @@
                 bounds.extend(truckLocation);
                 bounds.extend(userLocation);
                 map.fitBounds(bounds);
+
+                // Extract distance and time from response
+                const route = response.routes[0].legs[0];
+                const distance = route.distance.text; // e.g., "5.2 miles"
+                const duration = route.duration.text; // e.g., "12 mins"
+
+                // Update floating card with details
+                infoCard.innerHTML = `🚛 Estimated Distance: <strong>${distance}</strong> <br> ⏳ Time: <strong>${duration}</strong>`;
               } else {
                 console.error('Directions request failed due to ' + status);
+                infoCard.innerHTML = 'Failed to calculate route.';
               }
             }
           );

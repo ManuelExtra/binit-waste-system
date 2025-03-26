@@ -196,6 +196,16 @@ app.get('/admin/truck/:id', async (req, res) => {
   });
 });
 
+// Route for Admin New Truck page
+app.get('/admin/trucks/create', async (req, res) => {
+  res.render('admin/new-truck', {
+    page: 'admin/new-truck',
+    errors: {},
+    username: '',
+    password: '',
+  });
+});
+
 // Route for Admin Settings page
 app.get('/admin/settings', (req, res) => {
   res.render('admin/settings', {
