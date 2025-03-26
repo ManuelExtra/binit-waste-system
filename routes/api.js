@@ -9,6 +9,7 @@ const router = express.Router();
 const dotenv = require('dotenv');
 const { body, validationResult } = require('express-validator');
 const mongoose = require('mongoose');
+const Request = require('../models/Request');
 
 dotenv.config();
 
@@ -72,67 +73,91 @@ router.post('/signin', async (req, res) => {
 });
 
 // Fetch Trucks (for users)
-router.get(
-  '/trucks',
-  // auth,
-  async (req, res) => {
-    try {
-      const trucks = await Truck.find();
-      res.json(trucks);
-    } catch (err) {
-      res.status(500).json({ message: 'Server error' });
-    }
+router.get('/trucks', async (req, res) => {
+  try {
+    const trucks = await Truck.find();
+    res.json(trucks);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
-);
+});
 
 // Schedule Pickup (for users)
-router.post(
-  '/schedule',
-  // auth,
-  async (req, res) => {
-    console.log(req.user);
+router.post('/schedule', auth, async (req, res) => {
+  const { truckId, amount, pickupDate, wasteType, location, coordinates } =
+    req.body;
 
-    const { truckId, amount } = req.body;
-    try {
-      const transaction = new Transaction({
-        userId: req.user.id,
-        truckId,
-        amount,
-      });
-      await transaction.save();
-      res.status(201).json(transaction);
-    } catch (err) {
-      console.log(err);
-
-      res.status(500).json({ message: 'Server error' });
-    }
+  // Ensure location is a string
+  if (typeof location !== 'string') {
+    return res.status(400).json({ message: 'Invalid location format' });
   }
-);
+
+  try {
+    const truck = await Truck.findById(truckId);
+    if (!truck) {
+      return res.status(404).json({ message: 'Truck not found' });
+    }
+
+    const amount = truck.price;
+    const wasteType = truck.wasteName;
+
+    // Step 1: Create a new Request
+    const newRequest = new Request({
+      userId: req.user.id,
+      pickupDate,
+      location,
+      wasteType,
+      coordinates,
+      status: 'Pending',
+    });
+
+    await newRequest.save();
+
+    // Step 2: Create a new Transaction and link it to the Request
+    const transaction = new Transaction({
+      userId: req.user.id,
+      truckId,
+      amount,
+      requestId: newRequest._id, // Linking transaction to request
+    });
+
+    await transaction.save();
+
+    // Step 3: Update Request with transactionId
+    newRequest.transactionId = transaction._id;
+    await newRequest.save();
+
+    res.status(201).json({
+      message: 'Pickup scheduled successfully',
+      request: newRequest,
+      transaction,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
 
 // Admin: Manage Trucks
-router.post(
-  '/admin/trucks',
-  // auth,
-  async (req, res) => {
-    // if (req.user.role !== 'admin')
-    //   return res.status(403).json({ message: 'Access denied' });
+router.post('/admin/trucks', auth, async (req, res) => {
+  if (req.user.role !== 'admin')
+    return res.status(403).json({ message: 'Access denied' });
 
-    const { name, wasteName, price, location, coordinates } = req.body;
-    try {
-      const truck = new Truck({
-        name,
-        wasteName,
-        price,
-        location,
-        coordinates,
-      });
-      await truck.save();
-      res.status(201).json(truck);
-    } catch (err) {
-      res.status(500).json({ message: 'Server error' });
-    }
+  const { name, wasteName, price, location, coordinates } = req.body;
+  try {
+    const truck = new Truck({
+      name,
+      wasteName,
+      price,
+      location,
+      coordinates,
+    });
+    await truck.save();
+    res.status(201).json(truck);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
   }
-);
+});
 
 // Update a truck
 router.put('/admin/trucks/:id', auth, async (req, res) => {
@@ -317,7 +342,8 @@ router.get('/latest-request', auth, async (req, res) => {
     const latestRequest = await Transaction.findOne() // Get the latest request
       .sort({ createdAt: -1 }) // Sort by newest first
       .populate('userId') // Populate all user details
-      .populate('truckId'); // Populate all truck details
+      .populate('truckId') // Populate all truck details
+      .populate('requestId'); // Populate all truck details
 
     if (!latestRequest) {
       return res.status(404).json({ message: 'No transactions found' });
@@ -440,5 +466,15 @@ router.put(
     }
   }
 );
+
+// Logout Route
+router.post('/auth/logout', (req, res) => {
+  res.clearCookie('connect.sid'); // Clear session cookie
+  res.json({ success: true, message: 'Logged out successfully' });
+});
+
+router.get('/auth/check', auth, (req, res) => {
+  res.json({ authenticated: true });
+});
 
 module.exports = router;

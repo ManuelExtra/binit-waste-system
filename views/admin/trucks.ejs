@@ -65,7 +65,6 @@
       async function fetchTrucks() {
         try {
           const response = await fetch('/api/trucks', {
-            method: 'GET',
             headers: {
               'Content-Type': 'application/json',
               Authentication: `Bearer ${localStorage.getItem('token')}`,

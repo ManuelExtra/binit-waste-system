@@ -108,13 +108,13 @@
                       class="flex items-center mb-1 text-lg font-semibold text-gray-900"
                       id="pickupLocation"
                     >
-                      2972 Westheimer
+                      Loading
                     </h3>
                     <p
                       class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400"
                       id="pickupAddress"
                     >
-                      Rd. Santa Ana. Illinois 85486
+                      Loading
                     </p>
                   </li>
                   <li class="mb-10 ms-6">
@@ -127,13 +127,13 @@
                       class="mb-1 text-lg font-semibold text-gray-900"
                       id="dropoffLocation"
                     >
-                      8502 Preston
+                      Loading
                     </h3>
                     <p
                       class="text-base font-normal text-gray-500 dark:text-gray-400"
                       id="dropoffAddress"
                     >
-                      Rd. Inglewood. Maine 98380
+                      Loading
                     </p>
                   </li>
                 </ol>
@@ -341,9 +341,10 @@
                 document.getElementById('pickupAddress').textContent =
                   recentTransaction.truckId?.location || 'No Address Available';
                 document.getElementById('dropoffLocation').textContent =
-                  recentTransaction.dropoffLocation || 'User Location';
+                  recentTransaction.dropoffLocation || 'Pickup Location';
                 document.getElementById('dropoffAddress').textContent =
-                  recentTransaction.userId?.location || 'No Address Available';
+                  recentTransaction.requestId?.location ||
+                  'No Address Available';
                 document.getElementById('clientName').textContent =
                   recentTransaction.userId?.name || 'Unknown User';
                 document.getElementById('clientCompany').textContent =

@@ -8,6 +8,10 @@ const transactionSchema = new mongoose.Schema({
     required: true,
   },
   amount: { type: Number, required: true },
+  requestId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Request', // Relates to Request model
+  },
   status: { type: String, enum: ['pending', 'completed'], default: 'pending' },
   createdAt: { type: Date, default: Date.now },
 });

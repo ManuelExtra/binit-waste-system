@@ -142,9 +142,9 @@
             lat: data.truckId.coordinates.lat,
             lng: data.truckId.coordinates.lng,
           };
-          const userLocation = {
-            lat: data.userId.coordinates.lat,
-            lng: data.userId.coordinates.lng,
+          const pickupLocation = {
+            lat: +data.requestId.coordinates.lat,
+            lng: +data.requestId.coordinates.lng,
           };
 
           // Initialize the map centered at the truck location
@@ -162,9 +162,9 @@
           });
 
           const userMarker = new google.maps.Marker({
-            position: userLocation,
+            position: pickupLocation,
             map: map,
-            title: 'User Location',
+            title: 'Pickup Location',
             icon: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png', // User icon
           });
 
@@ -188,7 +188,7 @@
           directionsService.route(
             {
               origin: truckLocation,
-              destination: userLocation,
+              destination: pickupLocation,
               travelMode: google.maps.TravelMode.DRIVING,
             },
             (response, status) => {
@@ -198,7 +198,7 @@
                 // Adjust map to fit both markers
                 const bounds = new google.maps.LatLngBounds();
                 bounds.extend(truckLocation);
-                bounds.extend(userLocation);
+                bounds.extend(pickupLocation);
                 map.fitBounds(bounds);
 
                 // Extract distance and time from response
@@ -222,7 +222,7 @@
           document.getElementById('pickup-location').textContent =
             data.truckId.location || 'Unknown';
           document.getElementById('dropoff-location').textContent =
-            data.userId.location || 'Unknown';
+            data.requestId?.location || 'Unknown';
 
           // Populate client info
           if (data.userId) {

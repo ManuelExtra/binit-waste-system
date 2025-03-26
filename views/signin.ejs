@@ -19,12 +19,12 @@
     <section class="min-h-screen bg-[#00c200] flex items-center justify-center">
       <div class="bg-white p-10 shadow-md w-full max-w-lg">
         <h1 class="text-4xl mb-10 grotesk">User Login</h1>
-        <form action="/signup" method="POST" class="space-y-4">
+        <form id="loginForm" class="space-y-4">
           <div>
             <label class="block">Email address</label>
             <input
               type="email"
-              name="email"
+              id="email"
               placeholder="Enter your email"
               class="w-full p-2 border rounded-2xl"
               required
@@ -35,7 +35,7 @@
             <label class="block">Password</label>
             <input
               type="password"
-              name="password"
+              id="password"
               placeholder="Enter your password"
               class="w-full p-2 border rounded-2xl"
               required
@@ -50,11 +50,48 @@
           </button>
         </form>
 
-        <p class="text-center mt-4">
-          <a href="/forgot-password" class="text-blue-500">Forgot password</a>
-        </p>
+        <p id="errorMessage" class="text-red-500 mt-3"></p>
       </div>
     </section>
+
+    <script>
+      document
+        .getElementById('loginForm')
+        .addEventListener('submit', async (event) => {
+          event.preventDefault(); // Prevent default form submission
+
+          const email = document.getElementById('email').value;
+          const password = document.getElementById('password').value;
+          const errorMessage = document.getElementById('errorMessage');
+
+          try {
+            const response = await fetch('/api/signin', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+              errorMessage.textContent =
+                data.message || 'Invalid login details';
+              return;
+            }
+
+            // Store token in local storage
+            localStorage.setItem('token', data.token);
+
+            // Redirect to dashboard
+            window.location.href = '/schedule-pickup';
+          } catch (error) {
+            errorMessage.textContent =
+              'Something went wrong. Please try again.';
+          }
+        });
+    </script>
 
     <%- include('partials/footer') %>
   </body>

@@ -1,7 +1,6 @@
 <!-- Sidebar -->
 <aside class="w-1/5 bg-white p-10">
   <a href="#" class="logo">
-    <!-- <img src="./images/logo.png" alt="Logo" class="logo-img" /> -->
     <img src="/images/logo-2.png" alt="Logo" class="logo-img" />
   </a>
   <nav class="mt-12 space-y-4">
@@ -38,8 +37,47 @@
       class="block p-3 <%= page === 'admin/settings' ? 'bg-[#00c200] text-white' : 'hover:bg-gray-200' %> rounded-lg"
       >Settings</a
     >
-    <a href="javascript:void(0)" class="block p-3 hover:bg-gray-200 rounded-lg"
+    <a
+      href="javascript:void(0)"
+      id="logout-btn"
+      class="block p-3 hover:bg-gray-200 rounded-lg cursor-pointer"
       >Logout</a
     >
   </div>
 </aside>
+
+<script>
+  document.getElementById('logout-btn').addEventListener('click', async () => {
+    try {
+      const response = await fetch('/api/auth/logout', { method: 'POST' });
+      if (response.ok) {
+        window.location.href = '/admin-signin'; // Redirect to login page after logout
+      } else {
+        alert('Logout failed, please try again.');
+      }
+    } catch (error) {
+      console.error('Logout Error:', error);
+      alert('Something went wrong!');
+    }
+  });
+
+  async function checkAuth() {
+    try {
+      const response = await fetch('/api/auth/check', {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      }); // Call API to check auth
+      const data = await response.json();
+      if (!data.authenticated) {
+        window.location.href = '/admin-signin'; // Redirect if not authenticated
+      }
+    } catch (error) {
+      console.error('Error checking authentication:', error);
+      window.location.href = '/admin-signin';
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', checkAuth);
+</script>
