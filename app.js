@@ -21,6 +21,8 @@ app.use(morgan());
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+// Add this line to ensure JSON parsing
+app.use(express.json());
 
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
@@ -395,9 +397,16 @@ app.get('/payment', (req, res) => {
 // Routes
 app.use('/api', apiRoutes);
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+module.exports = app;
 
-module.exports = { signup, users };
+// Only start server if this file is run directly
+if (require.main === module) {
+  // Start the server
+  const server = app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+
+  module.exports = server; // Export server for testing if needed
+}
+
+// module.exports = { signup, users };

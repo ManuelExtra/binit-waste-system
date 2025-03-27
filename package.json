@@ -4,7 +4,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "test": "jasmine",
+    "test": "NODE_ENV=test jasmine",
     "test:watch": "nodemon --exec 'npx jasmine'",
     "test:coverage": "nyc npx jasmine"
   },
@@ -23,9 +23,11 @@
     "jasmine": "^5.6.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.12.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "supertest": "^7.1.0"
   },
   "devDependencies": {
+    "jasmine-expect": "^5.0.0",
     "nodemon": "^3.1.9",
     "nyc": "^17.1.0"
   }
